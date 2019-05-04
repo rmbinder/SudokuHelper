@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="PLG_SUDOKU_HELPER_NAME">Sudoku helper</string> 
+    <string name="PLG_SUDOKU_HELPER_POSSIBLE">possible</string> 
+    <string name="PLG_SUDOKU_HELPER_SET">set</string>
+</resources>
