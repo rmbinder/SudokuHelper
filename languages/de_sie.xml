@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
+    <string name="PLG_SUDOKU_HELPER_FIND_SINGLE">Einzelzahlen finden</string>
     <string name="PLG_SUDOKU_HELPER_NAME">Sudoku-Helfer</string> 
     <string name="PLG_SUDOKU_HELPER_POSSIBLE">möglich</string> 
     <string name="PLG_SUDOKU_HELPER_SET">setzen</string>

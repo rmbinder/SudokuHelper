@@ -3,9 +3,9 @@
  ***********************************************************************************************
  * sudokuhelper
  *
- * Version 1.0
+ * Version 1.1-Beta1
  * 
- * Stand 04.05.2019
+ * Stand 05.05.2019
  *
  * Dieses Admidio-Plugin hilft beim Lösen eines Sudoku-Rätsels.
  * 
@@ -36,6 +36,8 @@ if (!isset($_SESSION['pSudokuHelper']))
 
 $headline = $gL10n->get('PLG_SUDOKU_HELPER_NAME');
 
+$gNavigation->addUrl(CURRENT_URL);
+
 // create html page object
 $page = new HtmlPage($headline);
 $page->enableModal();
@@ -52,7 +54,10 @@ $page->addJavascript('
 // create the form
 $form = new HtmlForm('sudoku_form', null, $page, array('class' => 'form-preferences'));
 
-$html = '<table>';
+$html .= '<div style="margin: 0 auto;">';
+
+//Tabelle für Sudoku
+$html .= '<table style="float:left;">';
 
 for ($row = 1; $row < 10; $row++)
 {
@@ -82,6 +87,16 @@ for ($row = 1; $row < 10; $row++)
 }
 
 $html .= '</table>';
+
+//Tabelle für Zusatzdaten
+$html .= '<table style="float:right; " border="0">';
+
+$html .= function_button(safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'single')), $gL10n->get('PLG_SUDOKU_HELPER_FIND_SINGLE'));
+$html .= emptyLine();
+
+$html .= '</table>';
+$html .= '<br style="clear:both;">';
+$html .= '</div>';
 
 $page->addHtml($html);
 $page->addHtml($form->show(false));

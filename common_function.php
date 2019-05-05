@@ -95,4 +95,35 @@ function novum($field)
     return $ret;
 }
 
+/**
+ * Funktion erzeugt einen Button mit Link eingebettet in <tr><td> einer Tabelle
+ * @param   string  $url  URL des Links
+ * @param   string  $text  Anzeigetext des Buttons
+ * @return  string  html-Code mit Link für einen Button 
+ */
+function function_button($url, $text)
+{
+    $ret = '<tr>';
+    $ret .= '<td>';
+    $ret .= '<button type="button" class="btn btn-default" onclick="window.location.href=\''.$url.'\'">'.$text.'</button>';
+    $ret .= '</td>';
+    $ret .= '</tr>';
+    
+    return $ret;
+}
 
+/**
+ * Funktion erzeugt eine Leerzeile in einer Tabelle eingebettet in <tr><td> einer Tabelle
+ * @param   none
+ * @return  string  html-Code mit Link für einen Button
+ */
+function emptyLine()
+{
+    $ret = '<tr>';
+    $ret .= '<td>';
+    $ret .= '&nbsp';
+    $ret .= '</td>';
+    $ret .= '</tr>';
+    
+    return $ret;
+}
