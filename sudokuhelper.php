@@ -25,11 +25,13 @@ require_once(__DIR__ . '/common_function.php');
 if (!isset($_SESSION['pSudokuHelper']))
 {
     $_SESSION['pSudokuHelper'] = array();
+    $_SESSION['pSudokuHelper']['backup'] = array();
+    
     for ($row = 1; $row < 10; $row++)
     {
         for ($col = 1; $col < 10; $col++)
         {
-            $_SESSION['pSudokuHelper'][$row][$col] = array('possible' => array_fill(1,9,true), 'set' => 0);
+            $_SESSION['pSudokuHelper']['sudoku'][$row][$col] = array('possible' => array_fill(1,9,true), 'set' => 0);
         }
     }
 }
@@ -93,6 +95,15 @@ $html .= '<table style="float:right; " border="0">';
 
 $html .= function_button(safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'single')), $gL10n->get('PLG_SUDOKU_HELPER_FIND_SINGLE'));
 $html .= emptyLine();
+$html .= function_button(safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'backup')), $gL10n->get('PLG_SUDOKU_HELPER_CREATE_BACKUP'));
+
+if (sizeof($_SESSION['pSudokuHelper']['backup']) > 0)
+{
+    foreach ($_SESSION['pSudokuHelper']['backup'] as $backup => $dummy)
+    {
+        $html .= function_button(safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'restore', 'id' => $backup)), $backup);
+    }
+}
 
 $html .= '</table>';
 $html .= '<br style="clear:both;">';

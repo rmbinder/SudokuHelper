@@ -97,7 +97,7 @@ $table->addRowByArray($columnValues);
 
 for ($i = 1; $i < 10; $i++)
 {
-    if ($_SESSION['pSudokuHelper'][$getRow][$getCol]['set'] == $i)
+    if ($_SESSION['pSudokuHelper']['sudoku'][$getRow][$getCol]['set'] == $i)
     {
         $numberChecked = ' checked="checked" ';
     }
@@ -106,7 +106,7 @@ for ($i = 1; $i < 10; $i++)
         $numberChecked  = '';
     }
     
-    if ($_SESSION['pSudokuHelper'][$getRow][$getCol]['possible'][$i] )
+    if ($_SESSION['pSudokuHelper']['sudoku'][$getRow][$getCol]['possible'][$i] )
     {
         $possibleChecked = ' checked="checked" ';
         $numberDisabled = '';

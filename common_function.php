@@ -26,13 +26,13 @@ function generate_button($row, $col)
     $ret = '';
     $text = '';
    
-    if ($_SESSION['pSudokuHelper'][$row][$col]['set'] == 0)
+    if ($_SESSION['pSudokuHelper']['sudoku'][$row][$col]['set'] == 0)
     {
         $dist = '';
         $anz = 0;
         $fontsize = '8px';
         
-        foreach ($_SESSION['pSudokuHelper'][$row][$col]['possible'] as $key => $data)
+        foreach ($_SESSION['pSudokuHelper']['sudoku'][$row][$col]['possible'] as $key => $data)
         {
             if ($data)
             {
@@ -50,7 +50,7 @@ function generate_button($row, $col)
         	$fontsize = '12px';
         }
 
-        foreach ($_SESSION['pSudokuHelper'][$row][$col]['possible'] as $key => $data)
+        foreach ($_SESSION['pSudokuHelper']['sudoku'][$row][$col]['possible'] as $key => $data)
         {
             if ($data)
             {
@@ -62,7 +62,7 @@ function generate_button($row, $col)
     }
     else
     {
-        $ret .= '<button class="button" data-toggle="modal" data-target="#admidio_modal"  style= "height: 60px;width:60px;font-size: 40px" href="'.safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/assign.php', array('row' => $row, 'col' => $col)) . '">'. $_SESSION['pSudokuHelper'][$row][$col]['set'] .'</button>';
+        $ret .= '<button class="button" data-toggle="modal" data-target="#admidio_modal"  style= "height: 60px;width:60px;font-size: 40px" href="'.safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/assign.php', array('row' => $row, 'col' => $col)) . '">'. $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['set'] .'</button>';
     }
     
     return $ret;

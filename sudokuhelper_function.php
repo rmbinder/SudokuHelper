@@ -11,9 +11,11 @@
 /******************************************************************************
  * Parameters:
  *
- * mode     : 1 - find single numbers
- *            2 - 
- *            3 - 
+ * mode     : single  - find single numbers
+ *            backup  - save the game
+ *            restore - restore the game
+ *            
+ * id       : id of the game to restore
  *
  *****************************************************************************/
 
@@ -22,6 +24,7 @@ require_once(__DIR__ . '/common_function.php');
 
 // Initialize and check the parameters
 $getMode = admFuncVariableIsValid($_GET, 'mode', 'string');
+$getId   = admFuncVariableIsValid($_GET, 'id', 'string');
 
 switch($getMode)
 {            	
@@ -37,7 +40,7 @@ switch($getMode)
 	       
 	           for ($col = 1; $col < 10; $col++)
 	           {
-	               if (!$_SESSION['pSudokuHelper'][$row][$col]['possible'][$possible])
+	               if (!$_SESSION['pSudokuHelper']['sudoku'][$row][$col]['possible'][$possible])
 	               {
 	                   continue;
 	               }
@@ -50,8 +53,8 @@ switch($getMode)
 	       
 	           if ($possible_count == 1)
 	           {
-	               $_SESSION['pSudokuHelper'][$row][$possible_found]['possible'] = array_fill(1,9,false);
-	               $_SESSION['pSudokuHelper'][$row][$possible_found]['possible'][$possible] = true;
+	               $_SESSION['pSudokuHelper']['sudoku'][$row][$possible_found]['possible'] = array_fill(1,9,false);
+	               $_SESSION['pSudokuHelper']['sudoku'][$row][$possible_found]['possible'][$possible] = true;
 	           }
 	        }
 	    }
@@ -66,7 +69,7 @@ switch($getMode)
 		        
 		        for ($row = 1; $row < 10; $row++)
 		        {
-		            if (!$_SESSION['pSudokuHelper'][$row][$col]['possible'][$possible])
+		            if (!$_SESSION['pSudokuHelper']['sudoku'][$row][$col]['possible'][$possible])
 		            {
 		                continue;
 		            }
@@ -79,8 +82,8 @@ switch($getMode)
 		        
 		        if ($possible_count == 1)
 		        {
-		            $_SESSION['pSudokuHelper'][$row][$possible_found]['possible'] = array_fill(1,9,false);
-		            $_SESSION['pSudokuHelper'][$row][$possible_found]['possible'][$possible] = true;
+		            $_SESSION['pSudokuHelper']['sudoku'][$row][$possible_found]['possible'] = array_fill(1,9,false);
+		            $_SESSION['pSudokuHelper']['sudoku'][$row][$possible_found]['possible'][$possible] = true;
 		        }
 		    }
 		}
@@ -109,7 +112,7 @@ switch($getMode)
 		        {
 		            for ($col = $blockData['col']; $col < $blockData['col']+3; $col++)
 		            {
-		                if ($_SESSION['pSudokuHelper'][$row][$col]['possible'][$possible])
+		                if ($_SESSION['pSudokuHelper']['sudoku'][$row][$col]['possible'][$possible])
 		                {
 		                    $possible_count++;
 		                    $possible_found_row = $row;
@@ -119,13 +122,20 @@ switch($getMode)
 		        }
 		        if ($possible_count == 1)
 		        {
-		            $_SESSION['pSudokuHelper'][$possible_found_row][$possible_found_col]['possible'] = array_fill(1,9,false);
-		            $_SESSION['pSudokuHelper'][$possible_found_row][$possible_found_col]['possible'][$possible] = true;
+		            $_SESSION['pSudokuHelper']['sudoku'][$possible_found_row][$possible_found_col]['possible'] = array_fill(1,9,false);
+		            $_SESSION['pSudokuHelper']['sudoku'][$possible_found_row][$possible_found_col]['possible'][$possible] = true;
 		        } 
 		    }
         }
         break;
-    	
+    case 'backup':
+        $_SESSION['pSudokuHelper']['backup'][DATETIME_NOW] = $_SESSION['pSudokuHelper']['sudoku'];
+        break;
+        
+    case 'restore':
+        $_SESSION['pSudokuHelper']['sudoku'] = $_SESSION['pSudokuHelper']['backup'][$getId];
+        break;
+        
 }    	
 
 admRedirect(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER. '/sudokuhelper.php');
