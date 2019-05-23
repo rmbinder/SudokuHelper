@@ -113,6 +113,76 @@ function function_button($url, $text)
 }
 
 /**
+ * Funktion sucht Zahlen
+ * z.B. wenn $anz=1, dann wird 2 gefunden in 12457 145 458 458
+ * z.B. wenn $anz=2, dann wird 35 gefunden in 123458 2687 23458 478 4789
+ * @param   int  $anz  Anzahl der zu suchenden Zahlen
+ * @param   array  $arbArray  das übergebene Array in dem die Zahlen gesucht werden
+ * @return  array  Array mit den gefundenen Zahlen
+ */
+function search_numbers($anz, $arbArray)
+{
+    $ret = array();
+    $foundArray = array();
+    
+    // im ersten Schritt die Zahlen löschen, deren (Gesamt)Anzahl nicht stimmt
+    // wenn z.B. nach Pärchen gesucht wird ($anz=2), dann darf eine Zahl (1 bis 9) nur 2x vorkommen
+    for ($possible = 1; $possible < 10; $possible++)
+    {
+        $possible_count = 0;
+        $foundArray[$possible] = '';
+        
+        for ($i = 1; $i < 10; $i++)
+        {
+            if (!$arbArray[$i][$possible])
+            {
+                continue;
+            }
+            else
+            {
+                $possible_count++;
+                $foundArray[$possible] .= $i;
+            }
+        }
+        
+        if ($possible_count <> $anz)
+        {
+            for ($i = 1; $i < 10; $i++)
+            {
+                $arbArray[$i][$possible] = false;
+            }
+            unset($foundArray[$possible]);
+        }
+    }
+    
+    $tempArray = array_count_values($foundArray);
+    
+    // jetzt die Zahlen löschen, die nicht im selben "Kästchen" sind
+    // wenn z.B. nach Pärchen gesucht wird, müssen die Zahlen 35 im selben Kästchen sein 123547 3578 (=OK), 12378 1578 123578 (=NEIN)
+    foreach ($tempArray as $colFound => $count)
+    {
+        if ($count <> $anz)
+        {
+            foreach (array_keys($foundArray, $colFound) as $key)
+            {
+                unset($foundArray[$key]);
+            }
+        }
+    }
+    
+    // jetzt das Rückgabearray zusammensetzen
+    if (sizeof($foundArray) > 0)
+    {
+        foreach ($foundArray as $key => $data)
+        {
+            $ret[$data][] = $key;
+        }
+    }
+    
+    return $ret;
+}
+
+/**
  * Funktion erzeugt eine Leerzeile in einer Tabelle eingebettet in <tr><td> einer Tabelle
  * @param   none
  * @return  string  html-Code mit Link für einen Button

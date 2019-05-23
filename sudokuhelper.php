@@ -5,7 +5,7 @@
  *
  * Version 1.1-Beta1
  * 
- * Stand 05.05.2019
+ * Stand 23.05.2019
  *
  * Dieses Admidio-Plugin hilft beim Lösen eines Sudoku-Rätsels.
  * 
@@ -93,7 +93,11 @@ $html .= '</table>';
 //Tabelle für Zusatzdaten
 $html .= '<table style="float:right; " border="0">';
 
-$html .= function_button(safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'single')), $gL10n->get('PLG_SUDOKU_HELPER_FIND_SINGLE'));
+$html .= function_button(safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'find_equals', 'anz' => 1)), $gL10n->get('PLG_SUDOKU_HELPER_FIND_SINGLE'));
+$html .= function_button(safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'find_equals', 'anz' => 2)), $gL10n->get('PLG_SUDOKU_HELPER_FIND_COUPLES'));
+$html .= function_button(safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'find_equals', 'anz' => 3)), $gL10n->get('PLG_SUDOKU_HELPER_FIND_TRIBLE'));
+$html .= emptyLine();
+$html .= function_button(safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'set')), $gL10n->get('PLG_SUDOKU_HELPER_PATTERN'));
 $html .= emptyLine();
 $html .= function_button(safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'backup')), $gL10n->get('PLG_SUDOKU_HELPER_CREATE_BACKUP'));
 
