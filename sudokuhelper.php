@@ -1,11 +1,11 @@
 <?php
 /**
  ***********************************************************************************************
- * sudokuhelper
+ * SudokuHelper
  *
- * Version 1.1-Beta1
+ * Version 1.1
  * 
- * Stand 23.05.2019
+ * Stand 16.06.2019
  *
  * Dieses Admidio-Plugin hilft beim Lösen eines Sudoku-Rätsels.
  * 
