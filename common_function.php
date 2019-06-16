@@ -197,3 +197,21 @@ function emptyLine()
     
     return $ret;
 }
+
+/**
+ * Funktion initialisiert ein neues Spiel
+ * @param   none
+ */
+function initSudoku()
+{
+    $_SESSION['pSudokuHelper'] = array();
+    $_SESSION['pSudokuHelper']['backup'] = array();
+    
+    for ($row = 1; $row < 10; $row++)
+    {
+        for ($col = 1; $col < 10; $col++)
+        {
+            $_SESSION['pSudokuHelper']['sudoku'][$row][$col] = array('possible' => array_fill(1,9,true), 'set' => 0);
+        }
+    }
+}

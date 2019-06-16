@@ -24,17 +24,10 @@ require_once(__DIR__ . '/common_function.php');
 
 if (!isset($_SESSION['pSudokuHelper']))
 {
-    $_SESSION['pSudokuHelper'] = array();
-    $_SESSION['pSudokuHelper']['backup'] = array();
-    
-    for ($row = 1; $row < 10; $row++)
-    {
-        for ($col = 1; $col < 10; $col++)
-        {
-            $_SESSION['pSudokuHelper']['sudoku'][$row][$col] = array('possible' => array_fill(1,9,true), 'set' => 0);
-        }
-    }
+    initSudoku();
 }
+
+$successCounter = 0;
 
 $headline = $gL10n->get('PLG_SUDOKU_HELPER_NAME');
 
@@ -84,6 +77,8 @@ for ($row = 1; $row < 10; $row++)
         $html .= '<td>';
         $html .= generate_button($row, $col);
         $html .= '</td>';
+        
+        $successCounter += $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['set'];
     }
     $html .= '</tr>';
 }
@@ -112,6 +107,21 @@ if (sizeof($_SESSION['pSudokuHelper']['backup']) > 0)
 $html .= '</table>';
 $html .= '<br style="clear:both;">';
 $html .= '</div>';
+
+if ($successCounter == 405)
+{
+    sleep(1);
+    echo '
+        <audio autoplay>
+            <source src="'.ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sounds/tusch'.rand(1,5).'.mp3" type="audio/mp3" />
+        </audio>
+    ';
+    
+    initSudoku();
+    
+    $gMessage->setForwardYesNo(safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper.php'));
+    $gMessage->show($gL10n->get('PLG_SUDOKU_HELPER_SUCCESS_MESSAGE'),$gL10n->get('PLG_SUDOKU_HELPER_CONGRATULATIONS'));
+}
 
 $page->addHtml($html);
 $page->addHtml($form->show(false));

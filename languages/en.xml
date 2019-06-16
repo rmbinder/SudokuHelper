@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
+    <string name="PLG_SUDOKU_HELPER_CONGRATULATIONS">Congratulations</string>
     <string name="PLG_SUDOKU_HELPER_CREATE_BACKUP">Save the game</string>
     <string name="PLG_SUDOKU_HELPER_FIND_COUPLES">Find couples</string> 
     <string name="PLG_SUDOKU_HELPER_FIND_SINGLE">Find single numbers</string>
@@ -8,4 +9,5 @@
     <string name="PLG_SUDOKU_HELPER_PATTERN">Pattern sudoku</string>
     <string name="PLG_SUDOKU_HELPER_POSSIBLE">possible</string>
     <string name="PLG_SUDOKU_HELPER_SET">set</string>
+    <string name="PLG_SUDOKU_HELPER_SUCCESS_MESSAGE">\nCongratulations, you have successfully solved the sudoku.\n\n\nDo you want to start a new game?</string>     
 </resources>
