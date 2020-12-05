@@ -3,7 +3,7 @@
  ***********************************************************************************************
  * Erzeugt die Modal-Auswahlliste für das Plugin sudokuhelper
  *
- * @copyright 2004-2019 rmb
+ * @copyright 2004-2020 rmb
  * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0 only
  ***********************************************************************************************
  */
@@ -36,8 +36,9 @@ header('Content-type: text/html; charset=utf-8');
 
 $html .= '<script type="text/javascript">
     $(function() {
-        $(".admidio-group-heading").click(function() {
-            showHideBlock($(this).attr("id"));
+
+        $("input[type=radio][name=set]").change(function() {
+           $("#sudoku_assignment_form").submit();
         });
 
         $("#sudoku_assignment_form").submit(function(event) {
@@ -54,13 +55,12 @@ $html .= '<script type="text/javascript">
                 success: function(data) {
                     if (data === "success") {
                         setTimeout(function() {
-                            $("#admidio_modal").modal("hide");
-                        }, 100);
-                       
+                            self.location.href = "'.SecurityUtils::encodeUrl(ADMIDIO_URL.FOLDER_PLUGINS . '/sudokuhelper/sudokuhelper.php').'" ;
+                        }, 50);
                     } else {
                         sudokuFormAlert.attr("class", "alert alert-danger form-alert");
                         sudokuFormAlert.fadeIn();
-                        sudokuFormAlert.html("<span class=\"glyphicon glyphicon-exclamation-sign\"></span>" + data);
+                        sudokuFormAlert.html("<i class=\"fas fa-exclamation-circle\"></i>" + data);
                     }
                 }
             });
@@ -69,13 +69,13 @@ $html .= '<script type="text/javascript">
 </script>
 
 <div class="modal-header">
+    <h3 class="modal-title">'.$headline.'</h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title">'.$headline.'</h4>
 </div>
 <div class="modal-body">';
 
 // action for the form
-$html .= '<form id="sudoku_assignment_form" action="'.safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/sudokuhelper/assign_save.php', array('row' => $getRow, 'col' => $getCol)).'" method="post">';
+$html .= '<form id="sudoku_assignment_form" action="'.SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/sudokuhelper/assign_save.php', array('row' => $getRow, 'col' => $getCol)).'" method="post">';
 
 // Create table
 $table = new HtmlTable('sudoku_assignment_table');
@@ -129,7 +129,7 @@ for ($i = 1; $i < 10; $i++)
 $html .= $table->show();
 
 $html .= '
-    <button class="btn-primary btn" id="btn_save" type="submit"><img src="'.THEME_URL.'/icons/disk.png" alt="'.$gL10n->get('SYS_SAVE').'" />&nbsp;'.$gL10n->get('SYS_SAVE').'</button>
+    <button class="btn-primary btn" id="btn_save" type="submit"><i class=\"fas fa-check\"></i>'.$gL10n->get('SYS_SAVE').'</button>
     <div class="form-alert" style="display: none;">&nbsp;</div>
 </form>';
 

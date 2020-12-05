@@ -3,7 +3,7 @@
  ***********************************************************************************************
  * Gemeinsame Funktionen fuer das Admidio-Plugin sudokuhelper
  *
- * @copyright 2004-2019 rmb
+ * @copyright 2004-2020 rmb
  * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0 only
  ***********************************************************************************************
  */
@@ -58,11 +58,11 @@ function generate_button($row, $col)
             }
         }
 
-        $ret .= '<button class="button" data-toggle="modal" data-target="#admidio_modal"  style= "height: 60px;width:60px;font-size: '.$fontsize.' " href="'.safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/assign.php', array('row' => $row, 'col' => $col)) . '">'. $text .'</button>';
+        $ret .= '<button class="openPopup" href="javascript:void(0);" style= "text-align: center;height: 60px;width:60px;font-size: '.$fontsize.' " data-href="'.SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/assign.php', array('row' => $row, 'col' => $col)) . '">'. $text .'</button>';
     }
     else
     {
-        $ret .= '<button class="button" data-toggle="modal" data-target="#admidio_modal"  style= "height: 60px;width:60px;font-size: 40px" href="'.safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/assign.php', array('row' => $row, 'col' => $col)) . '">'. $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['set'] .'</button>';
+        $ret .= '<button class="openPopup" href="javascript:void(0);" style= "text-align: center;height: 60px;width:60px;font-size: 40px" data-href="'.SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/assign.php', array('row' => $row, 'col' => $col)) . '">'. $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['set'] .'</button>';
     }
     
     return $ret;
@@ -92,23 +92,6 @@ function novum($field)
     {
         $ret = $field -($field-4);
     }
-    return $ret;
-}
-
-/**
- * Funktion erzeugt einen Button mit Link eingebettet in <tr><td> einer Tabelle
- * @param   string  $url  URL des Links
- * @param   string  $text  Anzeigetext des Buttons
- * @return  string  html-Code mit Link für einen Button 
- */
-function function_button($url, $text)
-{
-    $ret = '<tr>';
-    $ret .= '<td>';
-    $ret .= '<button type="button" class="btn btn-default" onclick="window.location.href=\''.$url.'\'">'.$text.'</button>';
-    $ret .= '</td>';
-    $ret .= '</tr>';
-    
     return $ret;
 }
 
@@ -178,22 +161,6 @@ function search_numbers($anz, $arbArray)
             $ret[$data][] = $key;
         }
     }
-    
-    return $ret;
-}
-
-/**
- * Funktion erzeugt eine Leerzeile in einer Tabelle eingebettet in <tr><td> einer Tabelle
- * @param   none
- * @return  string  html-Code mit Link für einen Button
- */
-function emptyLine()
-{
-    $ret = '<tr>';
-    $ret .= '<td>';
-    $ret .= '&nbsp';
-    $ret .= '</td>';
-    $ret .= '</tr>';
     
     return $ret;
 }

@@ -3,17 +3,17 @@
  ***********************************************************************************************
  * SudokuHelper
  *
- * Version 1.1
+ * Version 2.0 Beta 1
  * 
- * Stand 16.06.2019
+ * Stand 05.12.2020
  *
  * Dieses Admidio-Plugin hilft beim Lösen eines Sudoku-Rätsels.
  * 
  * Author: rmb
  *
- * Compatible with Admidio version 3.3
+ * Compatible with Admidio version 4
  *
- * @copyright 2004-2019 rmb
+ * @copyright 2004-2020 rmb
  * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0 only
  *   
  ***********************************************************************************************
@@ -31,25 +31,30 @@ $successCounter = 0;
 
 $headline = $gL10n->get('PLG_SUDOKU_HELPER_NAME');
 
-$gNavigation->addUrl(CURRENT_URL);
+$gNavigation->addStartUrl(CURRENT_URL);
 
 // create html page object
-$page = new HtmlPage($headline);
-$page->enableModal();
+$page = new HtmlPage('plg-sudokuhelper', $headline);
 
-$page->addJavascript('
-    $("body").on("hidden.bs.modal", ".modal", function() {
-        $(this).removeData("bs.modal");
-        location.reload();
-    });
-    ',
-    true
-    );
+$page->addPageFunctionsMenuItem('admSudokuHelperMenuItemSingle', $gL10n->get('PLG_SUDOKU_HELPER_FIND_SINGLE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'find_equals', 'anz' => 1)),  'fa-dice-one');
+$page->addPageFunctionsMenuItem('admSudokuHelperMenuItemCouple', $gL10n->get('PLG_SUDOKU_HELPER_FIND_COUPLES'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'find_equals', 'anz' => 2)),  'fa-dice-two');
+$page->addPageFunctionsMenuItem('admSudokuHelperMenuItemTrible', $gL10n->get('PLG_SUDOKU_HELPER_FIND_TRIBLE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'find_equals', 'anz' => 3)),  'fa-dice-three');
+$page->addPageFunctionsMenuItem('admSudokuHelperMenuItemPattern', $gL10n->get('PLG_SUDOKU_HELPER_PATTERN'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'set')),  'fa-cube');
+$page->addPageFunctionsMenuItem('admSudokuHelperMenuItemBackup', $gL10n->get('PLG_SUDOKU_HELPER_CREATE_BACKUP'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'backup')),  'fa-save');
+
+if (sizeof($_SESSION['pSudokuHelper']['backup']) > 0)
+{
+    $page->addPageFunctionsMenuItem('menu_item_restore', $gL10n->get('PLG_SUDOKU_HELPER_RESTORE_BACKUP'), '#', 'fa-reply');
+    foreach ($_SESSION['pSudokuHelper']['backup'] as $backup => $dummy)
+    {
+        $page->addPageFunctionsMenuItem('menu_item_restore'.$backup, $backup, SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'restore', 'id' => $backup)), 'fa-reply', 'menu_item_restore');
+    }
+}
 
 // create the form
 $form = new HtmlForm('sudoku_form', null, $page, array('class' => 'form-preferences'));
 
-$html .= '<div style="margin: 0 auto;">';
+$html = '<div style="margin: 0 auto;">';
 
 //Tabelle für Sudoku
 $html .= '<table style="float:left;">';
@@ -84,28 +89,7 @@ for ($row = 1; $row < 10; $row++)
 }
 
 $html .= '</table>';
-
-//Tabelle für Zusatzdaten
-$html .= '<table style="float:right; " border="0">';
-
-$html .= function_button(safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'find_equals', 'anz' => 1)), $gL10n->get('PLG_SUDOKU_HELPER_FIND_SINGLE'));
-$html .= function_button(safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'find_equals', 'anz' => 2)), $gL10n->get('PLG_SUDOKU_HELPER_FIND_COUPLES'));
-$html .= function_button(safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'find_equals', 'anz' => 3)), $gL10n->get('PLG_SUDOKU_HELPER_FIND_TRIBLE'));
-$html .= emptyLine();
-$html .= function_button(safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'set')), $gL10n->get('PLG_SUDOKU_HELPER_PATTERN'));
-$html .= emptyLine();
-$html .= function_button(safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'backup')), $gL10n->get('PLG_SUDOKU_HELPER_CREATE_BACKUP'));
-
-if (sizeof($_SESSION['pSudokuHelper']['backup']) > 0)
-{
-    foreach ($_SESSION['pSudokuHelper']['backup'] as $backup => $dummy)
-    {
-        $html .= function_button(safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'restore', 'id' => $backup)), $backup);
-    }
-}
-
-$html .= '</table>';
-$html .= '<br style="clear:both;">';
+$html .= '<br style="clear:both;"><br />';
 $html .= '</div>';
 
 if ($successCounter == 405)
@@ -119,7 +103,7 @@ if ($successCounter == 405)
     
     initSudoku();
     
-    $gMessage->setForwardYesNo(safeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper.php'));
+    $gMessage->setForwardYesNo(SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper.php'));
     $gMessage->show($gL10n->get('PLG_SUDOKU_HELPER_SUCCESS_MESSAGE'),$gL10n->get('PLG_SUDOKU_HELPER_CONGRATULATIONS'));
 }
 

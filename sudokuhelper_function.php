@@ -3,7 +3,7 @@
  ***********************************************************************************************
  * Verarbeiten der Einstellungen des Admidio-Plugins sudokuhelper
  *
- * @copyright 2004-2019 rmb
+ * @copyright 2004-2020 rmb
  * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0 only
  ***********************************************************************************************
  */
@@ -129,7 +129,8 @@ switch($getMode)
         break;
         
     case 'set':
-       
+        
+        initSudoku();
         $_SESSION['pSudokuHelper']['sudoku'][1][2]['set'] = 1;
         $_SESSION['pSudokuHelper']['sudoku'][1][3]['set'] = 5;
         $_SESSION['pSudokuHelper']['sudoku'][1][4]['set'] = 8;

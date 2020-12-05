@@ -8,6 +8,7 @@
     <string name="PLG_SUDOKU_HELPER_NAME">Sudoku-Helfer</string> 
     <string name="PLG_SUDOKU_HELPER_PATTERN">Mustersudoku</string>
     <string name="PLG_SUDOKU_HELPER_POSSIBLE">möglich</string>
+    <string name="PLG_SUDOKU_HELPER_RESTORE_BACKUP">Spielstand wiederherstellen</string>    
     <string name="PLG_SUDOKU_HELPER_SET">setzen</string>
     <string name="PLG_SUDOKU_HELPER_SUCCESS_MESSAGE">\nHerzlichen Glückwunsch, Sie haben das Sudoku erfolgreich gelöst.\n\n\nMöchten Sie ein neues Spiel beginnen?</string>     
 </resources>
