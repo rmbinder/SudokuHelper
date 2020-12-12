@@ -3,13 +3,13 @@
  ***********************************************************************************************
  * SudokuHelper
  *
- * Version 2.0 Beta 1
+ * Version 2.0
  * 
- * Stand 05.12.2020
+ * Stand 12.12.2020
  *
  * Dieses Admidio-Plugin hilft beim Lösen eines Sudoku-Rätsels.
  * 
- * Author: rmb
+ * Autor: rmb
  *
  * Compatible with Admidio version 4
  *
