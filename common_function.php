@@ -3,7 +3,7 @@
  ***********************************************************************************************
  * Gemeinsame Funktionen fuer das Admidio-Plugin sudokuhelper
  *
- * @copyright 2004-2020 rmb
+ * @copyright 2004-2021 rmb
  * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0 only
  ***********************************************************************************************
  */
@@ -173,6 +173,7 @@ function initSudoku()
 {
     $_SESSION['pSudokuHelper'] = array();
     $_SESSION['pSudokuHelper']['backup'] = array();
+    $_SESSION['pSudokuHelper']['stepback'] = array();
     
     for ($row = 1; $row < 10; $row++)
     {
@@ -181,4 +182,14 @@ function initSudoku()
             $_SESSION['pSudokuHelper']['sudoku'][$row][$col] = array('possible' => array_fill(1,9,true), 'set' => 0);
         }
     }
+    updateStepback();
+}
+
+/**
+ * Funktion fügt den aktuellen Sudoku-Stand an das StepBack-Array an
+ * @param   none
+ */
+function updateStepback()
+{
+    $_SESSION['pSudokuHelper']['stepback'][] = $_SESSION['pSudokuHelper']['sudoku'];
 }

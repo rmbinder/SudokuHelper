@@ -3,7 +3,7 @@
  ***********************************************************************************************
  * Assign the new values
  *
- * @copyright 2004-2020 rmb
+ * @copyright 2004-2021 rmb
  * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0 only
  ***********************************************************************************************
  */
@@ -49,6 +49,8 @@ if ($postSet != '0')
             $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['possible'][$postSet] = false;
         }
     }
+    updateStepback();
+    
 }
 else
 {

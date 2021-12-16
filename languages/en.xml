@@ -10,5 +10,6 @@
     <string name="PLG_SUDOKU_HELPER_POSSIBLE">possible</string>
     <string name="PLG_SUDOKU_HELPER_RESTORE_BACKUP">Restore the game</string>    
     <string name="PLG_SUDOKU_HELPER_SET">set</string>
+    <string name="PLG_SUDOKU_HELPER_STEP_BACK">Step back</string>     
     <string name="PLG_SUDOKU_HELPER_SUCCESS_MESSAGE">\nCongratulations, you have successfully solved the sudoku.\n\n\nDo you want to start a new game?</string>     
 </resources>

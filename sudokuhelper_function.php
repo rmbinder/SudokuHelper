@@ -3,7 +3,7 @@
  ***********************************************************************************************
  * Verarbeiten der Einstellungen des Admidio-Plugins sudokuhelper
  *
- * @copyright 2004-2020 rmb
+ * @copyright 2004-2021 rmb
  * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0 only
  ***********************************************************************************************
  */
@@ -15,6 +15,7 @@
  *            set           - set an pattern sudoku (only for testing)
  *            backup        - save the game
  *            restore       - restore the game
+ *            stepback      - step back
  *
  * anz      : number for find_equals
  * 
@@ -38,6 +39,7 @@ switch($getMode)
         // wird horizontal geprüft, dann wird $koord1 durch $row und $koord2 durch $col ersetzt 
         // wird vertikal geprüft, dann wird $koord1 durch $col und $koord2 durch $row ersetzt 
         $rowToCol = true;  
+        $updateRequired = false;
         for ($i = 1; $i < 3; $i++)                  // for-Schleife wird 2x durchlaufen, einmal rowToCol, einmal colToRow
         {
             for ($koord1 = 1; $koord1 < 10; $koord1++)
@@ -61,6 +63,7 @@ switch($getMode)
                         
                             if (sizeof($result) > 0)                    // ja, in dieser Spalte gibt es eine Übereinstimmung
                             {
+                                $updateRequired = true;
                                 $_SESSION['pSudokuHelper']['sudoku'][($rowToCol ? $koord1 : $koord2)][($rowToCol ? $koord2 : $koord1)]['possible'] = array_fill(1,9,false);
                                 foreach ($data as $datakey)
                                 {
@@ -114,6 +117,7 @@ switch($getMode)
                             
                             if (sizeof($result) > 0)                    // ja, in diesem Block gibt es eine Übereinstimmung
                             {
+                                $updateRequired = true;
                                 $_SESSION['pSudokuHelper']['sudoku'][$row ][$col]['possible'] = array_fill(1,9,false);
                                 foreach ($data as $datakey)
                                 {
@@ -125,7 +129,10 @@ switch($getMode)
                 }
             }
         }
-        
+        if ($updateRequired)
+        {
+            updateStepback();   
+        }
         break;
         
     case 'set':
@@ -252,6 +259,7 @@ switch($getMode)
         $_SESSION['pSudokuHelper']['sudoku'][9][7]['possible'] = array_fill(1,9,false);
         $_SESSION['pSudokuHelper']['sudoku'][9][8]['possible'] = array_fill(1,9,false);
         $_SESSION['pSudokuHelper']['sudoku'][9][9]['possible'] = array(1 => false ,2 => false ,3 => false,4 => true  ,5 => false ,6 => false,7 => true  ,8 => false ,9 => false ) ;
+        updateStepback();
         break;
         
     case 'backup':
@@ -260,6 +268,20 @@ switch($getMode)
         
     case 'restore':
         $_SESSION['pSudokuHelper']['sudoku'] = $_SESSION['pSudokuHelper']['backup'][$getId];
+        $_SESSION['pSudokuHelper']['stepback'] = array();
+        updateStepback();
+        break;
+        
+    case 'stepback':
+        $compareArr = array_pop($_SESSION['pSudokuHelper']['stepback']);
+        if ($_SESSION['pSudokuHelper']['sudoku'] === $compareArr)
+        {
+            $_SESSION['pSudokuHelper']['sudoku'] = array_pop($_SESSION['pSudokuHelper']['stepback']);
+        }
+        else
+        {
+            $_SESSION['pSudokuHelper']['sudoku'] = $compareArr;
+        }
         break;
 }    	
 

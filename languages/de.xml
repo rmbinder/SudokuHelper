@@ -10,6 +10,7 @@
     <string name="PLG_SUDOKU_HELPER_POSSIBLE">möglich</string>
     <string name="PLG_SUDOKU_HELPER_RESTORE_BACKUP">Spielstand wiederherstellen</string> 
     <string name="PLG_SUDOKU_HELPER_FIND_COUPLES">Pärchen finden</string> 
-    <string name="PLG_SUDOKU_HELPER_SET">setzen</string> 
+    <string name="PLG_SUDOKU_HELPER_SET">setzen</string>
+    <string name="PLG_SUDOKU_HELPER_STEP_BACK">Schritt zurück</string>    
     <string name="PLG_SUDOKU_HELPER_SUCCESS_MESSAGE">\nHerzlichen Glückwunsch, du hast das Sudoku erfolgreich gelöst.\n\n\nMöchtest du ein neues Spiel beginnen?</string> 
 </resources>
