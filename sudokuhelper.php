@@ -3,15 +3,15 @@
  ***********************************************************************************************
  * SudokuHelper
  *
- * Version 2.0
+ * Version 2.1-Beta1
  * 
- * Stand 12.12.2020
+ * Stand 24.12.2021
  *
  * Dieses Admidio-Plugin hilft beim Lösen eines Sudoku-Rätsels.
  * 
  * Autor: rmb
  *
- * Compatible with Admidio version 4
+ * Compatible with Admidio version 4 and 4.1
  *
  * @copyright 2004-2021 rmb
  * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0 only
