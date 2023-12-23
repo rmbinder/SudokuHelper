@@ -3,18 +3,18 @@
  ***********************************************************************************************
  * SudokuHelper
  *
- * Version 2.1
+ * Version 2.2
  * 
- * Stand 10.01.2022
+ * Stand 23.12.2023
  *
  * Dieses Admidio-Plugin hilft beim Lösen eines Sudoku-Rätsels.
  * This admidio plugin helps solve a Sudoku puzzle.
  * 
  * Author: rmb
  *
- * Compatible with Admidio version 4.0 and 4.1
+ * Compatible with Admidio from version 4.0
  *
- * @copyright 2004-2022 rmb
+ * @copyright 2004-2023 rmb
  * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0 only
  *   
  ***********************************************************************************************
@@ -22,6 +22,7 @@
 
 require_once(__DIR__ . '/../../adm_program/system/common.php');
 require_once(__DIR__ . '/common_function.php');
+include(__DIR__ . '/version.php');
 
 if (!isset($_SESSION['pSudokuHelper']))
 {
@@ -35,7 +36,7 @@ $headline = $gL10n->get('PLG_SUDOKU_HELPER_NAME');
 $gNavigation->addStartUrl(CURRENT_URL);
 
 // create html page object
-$page = new HtmlPage('plg-sudokuhelper', $headline);
+$page = new HtmlPage('plg-sudokuhelper', $headline.' <small>v'.$plugin_version.'</small>');
 
 $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemSingle', $gL10n->get('PLG_SUDOKU_HELPER_FIND_SINGLE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'find_equals', 'anz' => 1)), 'fa-dice-one');
 $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemCouple', $gL10n->get('PLG_SUDOKU_HELPER_FIND_COUPLES'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'find_equals', 'anz' => 2)), 'fa-dice-two');
