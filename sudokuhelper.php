@@ -5,7 +5,7 @@
  *
  * Version 2.2
  * 
- * Stand 23.12.2023
+ * Stand 18.01.2024
  *
  * Dieses Admidio-Plugin hilft beim Lösen eines Sudoku-Rätsels.
  * This admidio plugin helps solve a Sudoku puzzle.
@@ -14,7 +14,7 @@
  *
  * Compatible with Admidio from version 4.0
  *
- * @copyright 2004-2023 rmb
+ * @copyright rmb
  * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0 only
  *   
  ***********************************************************************************************
