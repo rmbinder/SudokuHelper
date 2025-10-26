@@ -8,7 +8,9 @@
  ***********************************************************************************************
  */
 
-require_once(__DIR__ . '/../../adm_program/system/common.php');
+use Admidio\Infrastructure\Utils\SecurityUtils;
+
+require_once(__DIR__ . '/../../system/common.php');
 
 if (!defined('PLUGIN_FOLDER'))
 {
