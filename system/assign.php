@@ -18,7 +18,7 @@
 
 use Admidio\Infrastructure\Utils\SecurityUtils;
 
-require_once(__DIR__ . '/../../system/common.php');
+require_once(__DIR__ . '/../../../system/common.php');
 require_once(__DIR__ . '/common_function.php');
 
 // Initialize and check the parameters
@@ -57,7 +57,7 @@ $html .= '<script type="text/javascript">
                 success: function(data) {
                     if (data === "success") {
                         setTimeout(function() {
-                            self.location.href = "'.SecurityUtils::encodeUrl(ADMIDIO_URL.FOLDER_PLUGINS . '/sudokuhelper/sudokuhelper.php').'" ;
+                            self.location.href = "'.SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper.php').'" ;
                         }, 50);
                     } else {
                         sudokuFormAlert.attr("class", "alert alert-danger form-alert");
@@ -77,7 +77,7 @@ $html .= '<script type="text/javascript">
 <div class="modal-body">';
 
 // action for the form
-$html .= '<form id="sudoku_assignment_form" action="'.SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/sudokuhelper/assign_save.php', array('row' => $getRow, 'col' => $getCol)).'" method="post">';
+$html .= '<form id="sudoku_assignment_form" action="'.SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER. '/system/assign_save.php', array('row' => $getRow, 'col' => $getCol)).'" method="post">';
 
 // Create table
 $table = new HtmlTable('sudoku_assignment_table');
