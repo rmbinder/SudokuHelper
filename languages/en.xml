@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
+    <string name="PLG_SUDOKU_HELPER_ACCESS_TO_PLUGIN">Access to the SudokuHelper plugin</string>
+    <string name="PLG_SUDOKU_HELPER_ACCESS_TO_PLUGIN_DESC">Members of this role have access to the SudokuHelper plugin</string>
     <string name="PLG_SUDOKU_HELPER_CONGRATULATIONS">Congratulations</string>
     <string name="PLG_SUDOKU_HELPER_CREATE_BACKUP">Save the game</string>
     <string name="PLG_SUDOKU_HELPER_FIND_COUPLES">Find couples</string> 
     <string name="PLG_SUDOKU_HELPER_FIND_SINGLE">Find single numbers</string>
     <string name="PLG_SUDOKU_HELPER_FIND_TRIBLE">Find trible numbers</string> 
-    <string name="PLG_SUDOKU_HELPER_NAME">Sudoku helper</string> 
+    <string name="PLG_SUDOKU_HELPER_NAME">SudokuHelper</string> 
+    <string name="PLG_SUDOKU_HELPER_NAME_DESC">The plugin SudokuHelper</string>     
     <string name="PLG_SUDOKU_HELPER_PATTERN">Pattern sudoku</string>
     <string name="PLG_SUDOKU_HELPER_POSSIBLE">possible</string>
     <string name="PLG_SUDOKU_HELPER_RESTORE_BACKUP">Restore the game</string>    
     <string name="PLG_SUDOKU_HELPER_SET">set</string>
     <string name="PLG_SUDOKU_HELPER_STEP_BACK">Step back</string>     
-    <string name="PLG_SUDOKU_HELPER_SUCCESS_MESSAGE">\nCongratulations, you have successfully solved the sudoku.\n\n\nDo you want to start a new game?</string>     
+    <string name="PLG_SUDOKU_HELPER_SUCCESS_MESSAGE">\nCongratulations, you have successfully solved the sudoku.\n\n\nDo you want to start a new game?</string> 
 </resources>
