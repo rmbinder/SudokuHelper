@@ -62,7 +62,7 @@ $html .= '<script type="text/javascript">
                     } else {
                         sudokuFormAlert.attr("class", "alert alert-danger form-alert");
                         sudokuFormAlert.fadeIn();
-                        sudokuFormAlert.html("<i class=\"fas fa-exclamation-circle\"></i>" + data);
+                        sudokuFormAlert.html("<i class=\"bi bi-exclamation-circle\"></i>" + data);
                     }
                 }
             });
@@ -131,7 +131,7 @@ for ($i = 1; $i < 10; $i++)
 $html .= $table->show();
 
 $html .= '
-    <button class="btn-primary btn" id="btn_save" type="submit"><i class=\"fas fa-check\"></i>'.$gL10n->get('SYS_SAVE').'</button>
+    <button class="btn-primary btn" id="btn_save" type="submit"><i class=\"bi bi-check-lg\"></i>'.$gL10n->get('SYS_SAVE').'</button>
     <div class="form-alert" style="display: none;">&nbsp;</div>
 </form>';
 

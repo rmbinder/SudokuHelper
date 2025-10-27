@@ -40,23 +40,23 @@ $gNavigation->addStartUrl(CURRENT_URL);
 // create html page object
 $page = new HtmlPage('plg-sudokuhelper', $headline.' <small>v'.$plugin_version.'</small>');
 
-$page->addPageFunctionsMenuItem('admSudokuHelperMenuItemSingle', $gL10n->get('PLG_SUDOKU_HELPER_FIND_SINGLE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'find_equals', 'anz' => 1)), 'fa-dice-one');
-$page->addPageFunctionsMenuItem('admSudokuHelperMenuItemCouple', $gL10n->get('PLG_SUDOKU_HELPER_FIND_COUPLES'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'find_equals', 'anz' => 2)), 'fa-dice-two');
-$page->addPageFunctionsMenuItem('admSudokuHelperMenuItemTrible', $gL10n->get('PLG_SUDOKU_HELPER_FIND_TRIBLE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'find_equals', 'anz' => 3)), 'fa-dice-three');
-$page->addPageFunctionsMenuItem('admSudokuHelperMenuItemPattern', $gL10n->get('PLG_SUDOKU_HELPER_PATTERN'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'set')), 'fa-cube');
-$page->addPageFunctionsMenuItem('admSudokuHelperMenuItemBackup', $gL10n->get('PLG_SUDOKU_HELPER_CREATE_BACKUP'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'backup')), 'fa-save');
+$page->addPageFunctionsMenuItem('admSudokuHelperMenuItemSingle', $gL10n->get('PLG_SUDOKU_HELPER_FIND_SINGLE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'find_equals', 'anz' => 1)), 'bi-dice-1');
+$page->addPageFunctionsMenuItem('admSudokuHelperMenuItemCouple', $gL10n->get('PLG_SUDOKU_HELPER_FIND_COUPLES'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'find_equals', 'anz' => 2)), 'bi-dice-2');
+$page->addPageFunctionsMenuItem('admSudokuHelperMenuItemTrible', $gL10n->get('PLG_SUDOKU_HELPER_FIND_TRIBLE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'find_equals', 'anz' => 3)), 'bi-dice-3');
+$page->addPageFunctionsMenuItem('admSudokuHelperMenuItemPattern', $gL10n->get('PLG_SUDOKU_HELPER_PATTERN'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'set')), 'bi-box');
+$page->addPageFunctionsMenuItem('admSudokuHelperMenuItemBackup', $gL10n->get('PLG_SUDOKU_HELPER_CREATE_BACKUP'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'backup')), 'bi-save');
 
 if (sizeof($_SESSION['pSudokuHelper']['backup']) > 0)
 {
-    $page->addPageFunctionsMenuItem('menu_item_restore', $gL10n->get('PLG_SUDOKU_HELPER_RESTORE_BACKUP'), '#', 'fa-reply');
+    $page->addPageFunctionsMenuItem('menu_item_restore', $gL10n->get('PLG_SUDOKU_HELPER_RESTORE_BACKUP'), '#', 'bi-reply');
     foreach ($_SESSION['pSudokuHelper']['backup'] as $backup => $dummy)
     {
-        $page->addPageFunctionsMenuItem('menu_item_restore'.$backup, $backup, SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'restore', 'id' => $backup)), 'fa-reply', 'menu_item_restore');
+        $page->addPageFunctionsMenuItem('menu_item_restore'.$backup, $backup, SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'restore', 'id' => $backup)), 'bi-reply', 'menu_item_restore');
     }
 }
 if (sizeof($_SESSION['pSudokuHelper']['stepback']) > 1)
 {
-    $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemStepback', $gL10n->get('PLG_SUDOKU_HELPER_STEP_BACK').' ('.(sizeof($_SESSION['pSudokuHelper']['stepback'])-1).')', SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'stepback')), 'fa-undo-alt');
+    $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemStepback', $gL10n->get('PLG_SUDOKU_HELPER_STEP_BACK').' ('.(sizeof($_SESSION['pSudokuHelper']['stepback'])-1).')', SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/sudokuhelper_function.php', array('mode' => 'stepback')), 'bi-arrow-counterclockwise');
 }
 
 $html = '<div style="margin: 0 auto;">';
