@@ -15,6 +15,7 @@ use Admidio\Infrastructure\Exception;
 use Admidio\Menu\Entity\MenuEntry;
 use Admidio\Roles\Entity\Role;
 use Admidio\Roles\Entity\RolesRights;
+use Plugins\SudokuHelper\classes\Config\ConfigTable;
 
 try {
     require_once (__DIR__ . '/../../../system/common.php');
@@ -94,9 +95,17 @@ try {
     // damit am Bildschirm die Menüeinträge aktualisiert werden: alle Sesssions neu laden
     $gCurrentSession->reloadAllSessions();
 
-    initSudoku();
+    // eine neues Objekt erzeugen
+    $pPreferences = new ConfigTable();
 
-    $gNavigation->addStartUrl(CURRENT_URL);
+    // prüfen, ob die Konfigurationstabelle bereits vorhanden ist und ggf. neu anlegen oder aktualisieren
+    if ($pPreferences->checkforupdate()) {
+        $pPreferences->init();
+    }
+
+    $pPreferences->config['install']['access_role_id'] = $role->getValue('rol_id'); // für die Uninstall-Routine: die ID der Zugriffsrolle in der Konfigurationstabelle speichern
+    $pPreferences->config['install']['menu_item_id'] = $menu->getValue('men_id'); // für die Uninstall-Routine: die ID des Menüpunktes in der Konfigurationstabelle speichern
+    $pPreferences->save();
 
     admRedirect(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper.php');
 } catch (Exception $e) {

@@ -10,11 +10,19 @@
  */
 use Admidio\Infrastructure\Utils\SecurityUtils;
 use Admidio\Infrastructure\Exception;
+use Plugins\SudokuHelper\classes\Config\ConfigTable;
 
 try {
     require_once (__DIR__ . '/../../../system/common.php');
     require_once (__DIR__ . '/common_function.php');
-    include (__DIR__ . '/version.php');
+
+    if (! isset($_SESSION['pSudokuHelper'])) {
+        initSudoku();
+    }
+
+    // Konfiguration einlesen
+    $pPreferences = new ConfigTable();
+    $pPreferences->read();
 
     $successCounter = 0;
 
@@ -23,7 +31,8 @@ try {
     $gNavigation->addStartUrl(CURRENT_URL, $headline, 'bi-puzzle');
 
     // create html page object
-    $page = new HtmlPage('plg-sudokuhelper', $headline . ' <small>v' . $plugin_version . '</small>');
+    $page = new HtmlPage('plg-sudokuhelper', $headline . ' <small>v' . $pPreferences->config['Plugininformationen']['version'] . '</small>');
+    $page->setContentFullWidth();
 
     $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemSingle', $gL10n->get('PLG_SUDOKU_HELPER_FIND_SINGLE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
         'mode' => 'find_equals',
@@ -58,6 +67,9 @@ try {
             'mode' => 'stepback'
         )), 'bi-arrow-counterclockwise');
     }
+
+    // show link to pluginpreferences
+    $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemPreferences', $gL10n->get('SYS_SETTINGS'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/preferences.php'), 'bi-gear-fill');
 
     $html = '<div style="margin: 0 auto;">';
 

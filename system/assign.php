@@ -18,8 +18,8 @@
 
 use Admidio\Infrastructure\Utils\SecurityUtils;
 
-require_once(__DIR__ . '/../../../system/common.php');
-require_once(__DIR__ . '/common_function.php');
+require_once (__DIR__ . '/../../../system/common.php');
+require_once (__DIR__ . '/common_function.php');
 
 // Initialize and check the parameters
 $getRow = admFuncVariableIsValid($_GET, 'row', 'int');
@@ -57,7 +57,7 @@ $html .= '<script type="text/javascript">
                 success: function(data) {
                     if (data === "success") {
                         setTimeout(function() {
-                            self.location.href = "'.SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper.php').'" ;
+                            self.location.href = "' . SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper.php') . '" ;
                         }, 50);
                     } else {
                         sudokuFormAlert.attr("class", "alert alert-danger form-alert");
@@ -71,69 +71,73 @@ $html .= '<script type="text/javascript">
 </script>
 
 <div class="modal-header">
-    <h3 class="modal-title">'.$headline.'</h3>
+    <h3 class="modal-title">' . $headline . '</h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 </div>
 <div class="modal-body">';
 
 // action for the form
-$html .= '<form id="sudoku_assignment_form" action="'.SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER. '/system/assign_save.php', array('row' => $getRow, 'col' => $getCol)).'" method="post">';
+$html .= '<form id="sudoku_assignment_form" action="' . SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/assign_save.php', array(
+    'row' => $getRow,
+    'col' => $getCol
+)) . '" method="post">';
 
 // Create table
 $table = new HtmlTable('sudoku_assignment_table');
-$table->setColumnAlignByArray(array('center',  'center', 'center'));
+$table->setColumnAlignByArray(array(
+    'center',
+    'center',
+    'center'
+));
 $columnHeading = array(
-	$gL10n->get('PLG_SUDOKU_HELPER_SET'),
+    $gL10n->get('PLG_SUDOKU_HELPER_SET'),
     '&nbsp;',
-	$gL10n->get('PLG_SUDOKU_HELPER_POSSIBLE')
+    $gL10n->get('PLG_SUDOKU_HELPER_POSSIBLE')
 );
 $table->addRowHeadingByArray($columnHeading);
 
-$table->setColumnsWidth(array('25%', '50%', '25%'));
+$table->setColumnsWidth(array(
+    '25%',
+    '50%',
+    '25%'
+));
 
-$columnValues   = array();
-$numberChecked  = '';
+$columnValues = array();
+$numberChecked = '';
 $possibleChecked = '';
 
 $table->addRowByArray($columnValues);
 
-for ($i = 1; $i < 10; $i++)
-{
-    if ($_SESSION['pSudokuHelper']['sudoku'][$getRow][$getCol]['set'] == $i)
-    {
+for ($i = 1; $i < 10; $i ++) {
+    if ($_SESSION['pSudokuHelper']['sudoku'][$getRow][$getCol]['set'] == $i) {
         $numberChecked = ' checked="checked" ';
+    } else {
+        $numberChecked = '';
     }
-    else
-    {
-        $numberChecked  = '';
-    }
-    
-    if ($_SESSION['pSudokuHelper']['sudoku'][$getRow][$getCol]['possible'][$i] )
-    {
+
+    if ($_SESSION['pSudokuHelper']['sudoku'][$getRow][$getCol]['possible'][$i]) {
         $possibleChecked = ' checked="checked" ';
         $numberDisabled = '';
-    }
-    else
-    {
-        $possibleChecked  = '';
+    } else {
+        $possibleChecked = '';
         $numberDisabled = ' disabled="disabled" ';
     }
-    
+
     $columnValues = array(
-    	'<input type="radio" name="set" '.$numberChecked.$numberDisabled.' value="'.$i.'" />',
+        '<input type="radio" name="set" ' . $numberChecked . $numberDisabled . ' value="' . $i . '" />',
         $i,
-        '<input type="checkbox" id="possible-'.$i.'" name="possible-'.$i.'" '.$possibleChecked.'  value="1" />'
+        '<input type="checkbox" id="possible-' . $i . '" name="possible-' . $i . '" ' . $possibleChecked . '  value="1" />'
     );
-    
+
     $table->addRowByArray($columnValues);
 }
 
 $html .= $table->show();
 
 $html .= '
-    <button class="btn-primary btn" id="btn_save" type="submit"><i class=\"bi bi-check-lg\"></i>'.$gL10n->get('SYS_SAVE').'</button>
+    <button class="btn-primary btn" id="btn_save" type="submit"><i class=\"bi bi-check-lg\"></i>' . $gL10n->get('SYS_SAVE') . '</button>
     <div class="form-alert" style="display: none;">&nbsp;</div>
 </form>';
 
-echo $html.'</div>';			// end-div class="modal-body"
+echo $html . '</div>';			// end-div class="modal-body"
 

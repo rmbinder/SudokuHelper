@@ -8,6 +8,7 @@
  * Stand 27.10.2025
  *
  * Dieses Admidio-Plugin hilft beim Lösen eines Sudoku-Rätsels.
+ * 
  * This admidio plugin helps solve a Sudoku puzzle.
  * 
  * Author: rmb
@@ -22,14 +23,26 @@
 
 use Admidio\Infrastructure\Utils\SecurityUtils;
 use Admidio\Infrastructure\Exception;
-
+use Plugins\SudokuHelper\classes\Config\ConfigTable;
+ 
 try {
     require_once (__DIR__ . '/../../system/common.php');
     require_once (__DIR__ . '/system/common_function.php');
-    include (__DIR__ . '/system/version.php');
 
-    if (! isset($_SESSION['pSudokuHelper'])) {
-        initSudoku();
+    $gNavigation->addStartUrl(CURRENT_URL);
+
+    $pPreferences = new ConfigTable();
+    if ($pPreferences->checkforupdate()) {
+        $pPreferences->init();
+    }
+
+    $pPreferences->read();
+    if ($pPreferences->config['install']['access_role_id'] == 0 || $pPreferences->config['install']['menu_item_id'] == 0) {
+
+        $urlInst = ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/install.php';
+        $gMessage->show($gL10n->get('PLG_SUDOKU_HELPER_INSTALL_UPDATE_REQUIRED', array(
+            '<a href="' . $urlInst . '">' . $urlInst . '</a>'
+        )));
     }
 
     admRedirect(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper.php');
