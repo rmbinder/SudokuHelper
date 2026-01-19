@@ -10,6 +10,7 @@
  */
 use Admidio\Infrastructure\Utils\SecurityUtils;
 use Admidio\Infrastructure\Exception;
+use Admidio\UI\Presenter\PagePresenter;
 use Plugins\SudokuHelper\classes\Config\ConfigTable;
 
 try {
@@ -31,7 +32,7 @@ try {
     $gNavigation->addStartUrl(CURRENT_URL, $headline, 'bi-puzzle');
 
     // create html page object
-    $page = new HtmlPage('plg-sudokuhelper', $headline . ' <small>v' . $pPreferences->config['Plugininformationen']['version'] . '</small>');
+    $page = PagePresenter::withHtmlIDAndHeadline('plg-sudokuhelper', $headline . ' <small>v' . $pPreferences->config['Plugininformationen']['version'] . '</small>');
     $page->setContentFullWidth();
 
     $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemSingle', $gL10n->get('PLG_SUDOKU_HELPER_FIND_SINGLE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
