@@ -3,9 +3,9 @@
  ***********************************************************************************************
  * SudokuHelper
  *
- * Version 3.0
+ * Version 3.1
  * 
- * Stand 27.10.2025
+ * Stand 17.02.2026
  *
  * Dieses Admidio-Plugin hilft beim Lösen eines Sudoku-Rätsels.
  * 
