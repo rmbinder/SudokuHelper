@@ -17,6 +17,7 @@
  *****************************************************************************/
 
 use Admidio\Infrastructure\Utils\SecurityUtils;
+use Admidio\UI\Presenter\PagePresenter;
 
 require_once (__DIR__ . '/../../../system/common.php');
 require_once (__DIR__ . '/common_function.php');
@@ -32,25 +33,25 @@ $headline = $gL10n->get('PLG_SUDOKU_HELPER_NAME');
 
 $gNavigation->addUrl(CURRENT_URL, $headline);
 
-$page = null;
+$smarty = PagePresenter::createSmartyObject();
 
 header('Content-type: text/html; charset=utf-8');
 
 $html .= '<script type="text/javascript">
     $(function() {
-
+    
         $("input[type=radio][name=set]").change(function() {
            $("#sudoku_assignment_form").submit();
         });
-
+    
         $("#sudoku_assignment_form").submit(function(event) {
             var action = $(this).attr("action");
             var sudokuFormAlert = $("#sudoku_assignment_form .form-alert");
             sudokuFormAlert.hide();
-
+    
             // disable default form submit
             event.preventDefault();
-
+    
             $.post({
                 url: action,
                 data: $(this).serialize(),
@@ -68,13 +69,13 @@ $html .= '<script type="text/javascript">
             });
         });
     });
-</script>
 
-<div class="modal-header">
-    <h3 class="modal-title">' . $headline . '</h3>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-</div>
-<div class="modal-body">';
+</script>
+        <div class="modal-header">
+            <h3 class="modal-title">' . $headline . '</h3>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">';
 
 // action for the form
 $html .= '<form id="sudoku_assignment_form" action="' . SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/assign_save.php', array(
@@ -82,31 +83,17 @@ $html .= '<form id="sudoku_assignment_form" action="' . SecurityUtils::encodeUrl
     'col' => $getCol
 )) . '" method="post">';
 
-// Create table
-$table = new HtmlTable('sudoku_assignment_table');
-$table->setColumnAlignByArray(array(
-    'center',
-    'center',
-    'center'
-));
 $columnHeading = array(
     $gL10n->get('PLG_SUDOKU_HELPER_SET'),
     '&nbsp;',
     $gL10n->get('PLG_SUDOKU_HELPER_POSSIBLE')
 );
-$table->addRowHeadingByArray($columnHeading);
+$columnAlign = array('center',  'center', 'center');
+$columnWidth = array('25%', '50%', '25%');
 
-$table->setColumnsWidth(array(
-    '25%',
-    '50%',
-    '25%'
-));
-
-$columnValues = array();
+$content = array();
 $numberChecked = '';
 $possibleChecked = '';
-
-$table->addRowByArray($columnValues);
 
 for ($i = 1; $i < 10; $i ++) {
     if ($_SESSION['pSudokuHelper']['sudoku'][$getRow][$getCol]['set'] == $i) {
@@ -114,7 +101,7 @@ for ($i = 1; $i < 10; $i ++) {
     } else {
         $numberChecked = '';
     }
-
+    
     if ($_SESSION['pSudokuHelper']['sudoku'][$getRow][$getCol]['possible'][$i]) {
         $possibleChecked = ' checked="checked" ';
         $numberDisabled = '';
@@ -122,22 +109,25 @@ for ($i = 1; $i < 10; $i ++) {
         $possibleChecked = '';
         $numberDisabled = ' disabled="disabled" ';
     }
-
-    $columnValues = array(
+    
+    $content[] = array(
         '<input type="radio" name="set" ' . $numberChecked . $numberDisabled . ' value="' . $i . '" />',
         $i,
         '<input type="checkbox" id="possible-' . $i . '" name="possible-' . $i . '" ' . $possibleChecked . '  value="1" />'
     );
-
-    $table->addRowByArray($columnValues);
 }
 
-$html .= $table->show();
+$smarty->assign('columnAlign', $columnAlign);
+$smarty->assign('columnWidth', $columnWidth);
+$smarty->assign('headers',$columnHeading);
+$smarty->assign('contents', $content);
 
-$html .= '
-    <button class="btn-primary btn" id="btn_save" type="submit"><i class=\"bi bi-check-lg\"></i>' . $gL10n->get('SYS_SAVE') . '</button>
-    <div class="form-alert" style="display: none;">&nbsp;</div>
-</form>';
+$htmlTable = $smarty->fetch('../templates/assign.plugin.sudokuhelper.tpl');
+$html .= $htmlTable;
 
-echo $html . '</div>';			// end-div class="modal-body"
+$html .= '<button class="btn-primary btn admidio-margin-bottom float-end" id="btn-save" type="submit"><i class="bi bi-check-lg"></i>' . $gL10n->get('SYS_SAVE') . '</button>';
+$html .= '</form></div>';
+
+echo $html;
+    
 
