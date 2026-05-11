@@ -47,6 +47,9 @@ try {
         'mode' => 'find_equals',
         'anz' => 3
     )), 'bi-dice-3');
+    $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemCannotbeMustnotbe', $gL10n->get('PLG_SUDOKU_HELPER_CANNOTBE_MUSTNOTBE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
+        'mode' => 'cannotbe_mustnotbe'
+    )), 'bi-signpost-split');
     $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemSaveSingle', $gL10n->get('PLG_SUDOKU_HELPER_SAVE_SINGLE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
         'mode' => 'save_single'
     )), 'bi-123');

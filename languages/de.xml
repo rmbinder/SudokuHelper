@@ -2,6 +2,7 @@
 <resources>
     <string name="PLG_SUDOKU_HELPER_ACCESS_TO_PLUGIN">Zugriff auf das Plugin SudokuHelper</string>
     <string name="PLG_SUDOKU_HELPER_ACCESS_TO_PLUGIN_DESC">Mitglieder dieser Rolle haben Zugriff auf das Plugin SudokuHelper</string>
+    <string name="PLG_SUDOKU_HELPER_CANNOTBE_MUSTNOTBE">Regel -Kanns nicht sein/Darfs nicht sein-</string>    
     <string name="PLG_SUDOKU_HELPER_CONGRATULATIONS">Gratulation</string> 
     <string name="PLG_SUDOKU_HELPER_CREATE_BACKUP">Spielstand speichern</string> 
     <string name="PLG_SUDOKU_HELPER_FIND_COUPLES">Regel -Double finden-</string>  

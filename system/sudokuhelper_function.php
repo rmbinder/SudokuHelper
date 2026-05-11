@@ -12,11 +12,12 @@
  * ****************************************************************************
  * Parameters:
  *
- * mode : find_equals - find numbers
+ * mode : find_equals - rule find numbers
  * set - set an pattern sudoku (only for testing)
  * backup - save the game
  * restore - restore the game
  * stepback - step back
+ * cannotbe_mustnotbe - rule cant´t be/must not be
  * save_single - save single values
  *
  * anz : number for find_equals
@@ -792,6 +793,195 @@ switch ($getMode) {
         } else {
             $_SESSION['pSudokuHelper']['sudoku'] = $compareArr;
         }
+        break;
+
+    case 'cannotbe_mustnotbe':
+        
+        /*
+         * Regel:
+         * Betrachtet werden immer 3 quadratische, nebeneinander liegende 9er Blöcke
+         * Bei waagrechter Prüfung: Aufgeteilt in drei Zeilen ($startrow, $startrow+1 und $startrow +2)
+         * In einen 9er Block in einer Zeile ist der aus drei nebeneinander liegenden Kästchen bestehende "Gegeben-Block". In diesem Block ist der zu prüfende Wert x/y ($numberSet)
+         * Bei senkrechter Prüfung: entsprechend
+         * Geprüft wird auf "Blöcke" (= drei nebeneinander liegenden Kästchen, ->> befindet sich ein Wert in einem Block?...)
+         * Die gesamte Zeile mit dem "Gegeben-Block" wird bei der weiteren Prüfung nicht betrachtet
+         * Die drei Spalten, in denen sich der "Gegeben-Block" befindet, werden bei der weiteren Prüfung auch nicht betrachtet
+         * In den verbliebenen zwei Zeilen gibt es jetzt 4 Dreier-Blöcke
+         * Wenn in einem dieser vier 3er-Blöcke der Wert aus x/y in keinen Possible-Daten enthalten ist, dann ist das der "Hier kanns nicht sein-Block"
+         * Wenn es einen "Hier kanns nicht sein-Block" gibt, gibt es auch einen komplementär (gegenüber liegend) vorhandenen "Hier darfs nicht sein-Block"
+         * Jetzt alle x/y-Werte ($numberSet) in den Possible-Daten im "Hier darfs nicht sein-Block" löschen
+         */
+        
+        // alle Zeilen durchlaufen
+        for ($row = 1; $row < 10; $row ++) {
+
+            // alle Spalten durchlaufen
+            for ($col = 1; $col < 10; $col ++) {
+
+                // nur weiter, wenn für dieses Feld ein Wert (eine Zahl 1-9) gesetzt wurde
+                if ($_SESSION['pSudokuHelper']['sudoku'][$row][$col]['set'] === 0) {
+                    continue;
+                } else {
+                    // den in diesem Feld gesetzten Wert auslesen
+                    $numberSet = $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['set'];
+
+                    // in der Zeile $row befindet sich der der einzulesende bzw. zu prüfende Wert - die Startzeile für diesen "Gegeben-Block" bestimmen
+                    $startRow = getStartRowOrCol($row);
+                    // in der Spalte $col befindet sich der einzulesende bzw. zu prüfende Wert - die Startspalte für diesen "Gegeben-Block" bestimmen
+                    $startCol = getStartRowOrCol($col);
+
+                    // ab hier die Unterscheidung, ob waagrecht oder senkrecht geprüft wird
+                    // ich habe 3 Möglichkeiten gefunden, das zu programmieren:
+                    // 1. im nachfolgenden Code wird $trow und $tcol durch Variablen ersetzt - Vorteil: kurzer Code - Nachteil: sehr unübersichtlich
+                    // 2. der Code bleibt gleich, aber das ganze Sudoku wird quasi um 90 Grad gedreht. Position 1.1 wird 1.9 usw - Vorteil: kurzer Code - Nachteil: alle Daten der $_SESSION müssen temporär geändert werden
+                    // 3. ein weiterer Codeabschnitt zur Prüfung senkrecht wird eingebaut - Vorteil: übersichtlich - Nachteil: der Code wird doppelt so lang
+                    // Option 3 wird realisiert
+
+                    // waagrechte Prüfung
+
+                    $workArray = array();
+
+                    // das Arbeitsarray mit Daten befüllen (ohne die Zeilen und Spalten mit dem "Gegeben-Block")
+
+                    for ($trow = 1; $trow < 10; $trow ++) {
+                        if ($row != $trow && getStartRowOrCol($trow) === $startRow) {
+                            for ($tcol = 1; $tcol < 10; $tcol ++) {
+                                if (getStartRowOrCol($tcol) != $startCol) {
+                                    $workArray[$trow]['set'][$tcol] = $_SESSION['pSudokuHelper']['sudoku'][$trow][$tcol]['set'];
+                                    $workArray[$trow]['possible'][$tcol] = $_SESSION['pSudokuHelper']['sudoku'][$trow][$tcol]['possible'];
+                                }
+                            }
+                        }
+                    }
+
+                    // ist der zu prüfende Wert in einer Zeile bereits vorhanden, dann diese Zeile löschen (der Wert darf weder in row2 noch in row3 als set gespeichert sein)
+                    foreach ($workArray as $trow => $data) {
+                        if (in_array($numberSet, $data['set'])) {
+                            unset($workArray[$trow]);
+                        }
+                    }
+
+                    // weiter nur, wenn noch genau zwei für die Prüfung vorhandene Zeilen vorhanden sind
+                    if (count($workArray) != 2) {
+                        continue;
+                    }
+
+                    // jetzt prüfen, ob der Wert aus x/y in einem der 4 3er-Blöcke NICHT in den Possible-daten enthalten ist. Dieser Block wäre dann der "Hier kanns nicht sein-Block"
+                    $checkArray = array();
+                    $foundInRow = 0;
+                    $foundInColBlock = 0;
+
+                    foreach ($workArray as $trow => $data) {
+
+                        foreach ($data['possible'] as $tcol => $datapos) {
+                            $workBlock = getStartRowOrCol($tcol);
+                            if (! $datapos[$numberSet]) {
+                                if (! isset($checkArray[$trow][$workBlock])) {
+                                    $checkArray[$trow][$workBlock] = 1;
+                                } else {
+                                    $checkArray[$trow][$workBlock] ++;
+
+                                    // beim ersten Auftreten von 3x Vorhanden-Sein des Wertes die Schleife verlassen (weitere Prüfung nicht erforderlich, das der "Hier kanns nicht sein-Block" gefunden wurde)
+                                    if ($checkArray[$trow][$workBlock] === 3) {
+                                        $foundInRow = $trow;
+                                        $foundInColBlock = $workBlock;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // wenn der "Hier kanns nicht sein-Block" gefunden wurde, dann in den Possible-Daten des "Hier kanns nicht sein-Block" den Wert aus x/y ($numberSet) auf false setzen.
+                    if ($foundInRow != 0) {
+                        foreach ($workArray as $trow => $data) {
+                            if ($trow === $foundInRow) {
+                                continue;
+                            }
+                            foreach ($data['possible'] as $tcol => $datapos) {
+                                if ((getStartRowOrCol($tcol)) === $foundInColBlock) {
+                                    continue;
+                                }
+                                $_SESSION['pSudokuHelper']['sudoku'][$trow][$tcol]['possible'][$numberSet] = false;
+                            }
+                        }
+                    }
+
+                    // senkrechte Prüfung
+
+                    $workArray = array();
+
+                    // das Arbeitsarray mit Daten befüllen (ohne die Zeilen und Spalten mit dem "Gegeben-Block")
+
+                    for ($tcol = 1; $tcol < 10; $tcol ++) {
+                        if ($col != $tcol && getStartRowOrCol($tcol) === $startCol) {
+                            for ($trow = 1; $trow < 10; $trow ++) {
+                                if (getStartRowOrCol($trow) != $startRow) {
+                                    $workArray[$tcol]['set'][$trow] = $_SESSION['pSudokuHelper']['sudoku'][$trow][$tcol]['set'];
+                                    $workArray[$tcol]['possible'][$trow] = $_SESSION['pSudokuHelper']['sudoku'][$trow][$tcol]['possible'];
+                                }
+                            }
+                        }
+                    }
+
+                    // ist der zu prüfende Wert in einer Zeile bereits vorhanden, dann diese Zeile löschen (der Wert darf weder in row2 noch in row3 als set gespeichert sein)
+                    foreach ($workArray as $tcol => $data) {
+                        if (in_array($numberSet, $data['set'])) {
+                            unset($workArray[$tcol]);
+                        }
+                    }
+
+                    // weiter nur, wenn noch genau zwei für die Prüfung vorhandene Zeilen vorhanden sind
+                    if (count($workArray) != 2) {
+                        continue;
+                    }
+
+                    // jetzt prüfen, ob der Wert aus x/y in einem der 4 3er-Blöcke NICHT in den Possible-daten enthalten ist. Dieser Block wäre dann der "Hier kanns nicht sein-Block"
+                    $checkArray = array();
+                    $foundInCol = 0;
+                    $foundInRowBlock = 0;
+
+                    foreach ($workArray as $tcol => $data) {
+
+                        foreach ($data['possible'] as $trow => $datapos) {
+                            $workBlock = getStartRowOrCol($trow);
+                            if (! $datapos[$numberSet]) {
+                                if (! isset($checkArray[$tcol][$workBlock])) {
+                                    $checkArray[$tcol][$workBlock] = 1;
+                                } else {
+                                    $checkArray[$tcol][$workBlock] ++;
+
+                                    // beim ersten Auftreten von 3x Vorhanden-Sein des Wertes die Schleife verlassen (weitere Prüfung nicht erforderlich, das der "Hier kanns nicht sein-Block" gefunden wurde)
+                                    if ($checkArray[$tcol][$workBlock] === 3) {
+                                        $foundInCol = $tcol;
+                                        $foundInRowBlock = $workBlock;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // wenn der "Hier kanns nicht sein-Block" gefunden wurde, in den Possible-Daten des "Hier kanns nicht sein-Block" den Wert aus x/y ($numberSet) auf false setzen.
+                    if ($foundInCol != 0) {
+                        foreach ($workArray as $tcol => $data) {
+                            if ($tcol === $foundInCol) {
+                                continue;
+                            }
+                            foreach ($data['possible'] as $trow => $datapos) {
+                                if ((getStartRowOrCol($trow)) === $foundInRowBlock) {
+                                    continue;
+                                }
+                                $_SESSION['pSudokuHelper']['sudoku'][$trow][$tcol]['possible'][$numberSet] = false;
+                            }
+                        }
+                    }
+                } // ende else schleife
+            }
+        }
+
+        updateStepback();
+
         break;
 
     case 'save_single':

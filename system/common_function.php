@@ -7,9 +7,7 @@
  * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0 only
  ***********************************************************************************************
  */
-
 use Admidio\Infrastructure\Utils\SecurityUtils;
-use Plugins\SudokuHelper\classes\Config\ConfigTable;
 
 if (basename($_SERVER['SCRIPT_FILENAME']) === 'common_function.php') {
     exit('This page may not be called directly!');
@@ -239,4 +237,22 @@ function initSudoku()
 function updateStepback()
 {
     $_SESSION['pSudokuHelper']['stepback'][] = $_SESSION['pSudokuHelper']['sudoku'];
+}
+
+/**
+ * Funktion erzeugt aus dem übergebenen Wert die Startzeile oder die Startspalte
+ * Bsp:
+ * 1 ergibt 1
+ * 3 ergibt 1
+ * 4 ergibt 4
+ * 6 ergibt 4
+ * 8 ergibt 7
+ *
+ * @param
+ *            $val
+ *            
+ */
+function getStartRowOrCol($val)
+{
+    return (3 * ceil($val / 3)) - 2;
 }
