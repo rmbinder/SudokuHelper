@@ -8,8 +8,8 @@
  *   
  ***********************************************************************************************
  */
-use Admidio\Infrastructure\Utils\SecurityUtils;
 use Admidio\Infrastructure\Exception;
+use Admidio\Infrastructure\Utils\SecurityUtils;
 use Admidio\UI\Presenter\PagePresenter;
 use Plugins\SudokuHelper\classes\Config\ConfigTable;
 
@@ -47,6 +47,9 @@ try {
         'mode' => 'find_equals',
         'anz' => 3
     )), 'bi-dice-3');
+    $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemSaveSingle', $gL10n->get('PLG_SUDOKU_HELPER_SAVE_SINGLE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
+        'mode' => 'save_single'
+    )), 'bi-123');
     $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemPattern', $gL10n->get('PLG_SUDOKU_HELPER_PATTERN'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
         'mode' => 'set'
     )), 'bi-box');
