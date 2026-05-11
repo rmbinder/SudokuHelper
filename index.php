@@ -3,9 +3,9 @@
  ***********************************************************************************************
  * SudokuHelper
  *
- * Version 3.1
+ * Version 3.2
  * 
- * Stand 17.02.2026
+ * Stand 11.05.2026
  *
  * Dieses Admidio-Plugin hilft beim Lösen eines Sudoku-Rätsels.
  * 
@@ -20,11 +20,9 @@
  *   
  ***********************************************************************************************
  */
-
-use Admidio\Infrastructure\Utils\SecurityUtils;
 use Admidio\Infrastructure\Exception;
 use Plugins\SudokuHelper\classes\Config\ConfigTable;
- 
+
 try {
     require_once (__DIR__ . '/../../system/common.php');
     require_once (__DIR__ . '/system/common_function.php');

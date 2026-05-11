@@ -4,9 +4,9 @@
     <string name="PLG_SUDOKU_HELPER_ACCESS_TO_PLUGIN_DESC">Mitglieder dieser Rolle haben Zugriff auf das Plugin SudokuHelper</string>
     <string name="PLG_SUDOKU_HELPER_CONGRATULATIONS">Gratulation</string> 
     <string name="PLG_SUDOKU_HELPER_CREATE_BACKUP">Spielstand speichern</string> 
-    <string name="PLG_SUDOKU_HELPER_FIND_COUPLES">Pärchen finden</string>  
-    <string name="PLG_SUDOKU_HELPER_FIND_SINGLE">Einzelzahlen finden</string>
-    <string name="PLG_SUDOKU_HELPER_FIND_TRIBLE">Dreier finden</string>  
+    <string name="PLG_SUDOKU_HELPER_FIND_COUPLES">Regel -Double finden-</string>  
+    <string name="PLG_SUDOKU_HELPER_FIND_SINGLE">Regel -Single finden-</string>
+    <string name="PLG_SUDOKU_HELPER_FIND_TRIBLE">Regel -Trible finden-</string>  
     <string name="PLG_SUDOKU_HELPER_INSTALL_UPDATE_REQUIRED">Die vorhandene Installation ist unvollständig. Es ist notwendig, die Installationsroutine erneut zu durchlaufen.\n\nZur Installation folgendes Script ausführen: #VAR1#</string>
     <string name="PLG_SUDOKU_HELPER_NAME">SudokuHelper</string> 
     <string name="PLG_SUDOKU_HELPER_NAME_DESC">Das Plugin SudokuHelper</string>  
