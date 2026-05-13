@@ -100,7 +100,15 @@ try {
                 $html .= '</td>';
             }
             $html .= '<td>';
-            $html .= generate_button($row, $col);
+
+            $addColor = '';
+            if (isset($_SESSION['pSudokuHelper']['previous'])) {
+                if ($_SESSION['pSudokuHelper']['previous'][$row][$col]['possible'] !== $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['possible']) {
+                    $addColor = ';background-color:orange';
+                }
+            }
+
+            $html .= generate_button($row, $col, $addColor);
             $html .= '</td>';
 
             $successCounter += $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['set'];
@@ -111,6 +119,8 @@ try {
     $html .= '</table>';
     $html .= '<br style="clear:both;"><br />';
     $html .= '</div>';
+
+    unset($_SESSION['pSudokuHelper']['previous']);
 
     if ($successCounter == 405) {
         sleep(1);

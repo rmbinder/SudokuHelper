@@ -37,6 +37,8 @@ $getId = admFuncVariableIsValid($_GET, 'id', 'string');
 switch ($getMode) {
     case 'find_equals':
 
+        $_SESSION['pSudokuHelper']['previous'] = $_SESSION['pSudokuHelper']['sudoku'];
+
         // Zeilen und Spalten prüfen
         // wird horizontal geprüft, dann wird $koord1 durch $row und $koord2 durch $col ersetzt
         // wird vertikal geprüft, dann wird $koord1 durch $col und $koord2 durch $row ersetzt
@@ -145,6 +147,7 @@ switch ($getMode) {
             }
         }
         if ($updateRequired) {
+
             updateStepback();
         }
         break;
@@ -812,6 +815,8 @@ switch ($getMode) {
          * Jetzt alle x/y-Werte ($numberSet) in den Possible-Daten im "Hier darfs nicht sein-Block" löschen
          */
         
+        $_SESSION['pSudokuHelper']['previous'] = $_SESSION['pSudokuHelper']['sudoku'];
+
         // alle Zeilen durchlaufen
         for ($row = 1; $row < 10; $row ++) {
 
@@ -986,6 +991,7 @@ switch ($getMode) {
 
     case 'save_single':
 
+        $_SESSION['pSudokuHelper']['previous'] = $_SESSION['pSudokuHelper']['sudoku'];
         for ($row = 1; $row < 10; $row ++) {
 
             for ($col = 1; $col < 10; $col ++) {

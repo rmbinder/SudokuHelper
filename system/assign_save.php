@@ -8,17 +8,18 @@
  ***********************************************************************************************
  */
 
-/******************************************************************************
+/**
+ * ****************************************************************************
  * Parameters:
  *
  * row : row of the pressed button
  * col : column of the pressed button
  * set : the new number for the pressed button
  *
- *****************************************************************************/
-
-require_once(__DIR__ . '/../../../system/common.php');
-require_once(__DIR__ . '/common_function.php');
+ * ***************************************************************************
+ */
+require_once (__DIR__ . '/../../../system/common.php');
+require_once (__DIR__ . '/common_function.php');
 
 // Initialize and check the parameters
 $getRow = admFuncVariableIsValid($_GET, 'row', 'int');
@@ -28,6 +29,7 @@ $postSet = admFuncVariableIsValid($_POST, 'set', 'string', array(
 ));
 
 $gMessage->showHtmlTextOnly(true);
+$_SESSION['pSudokuHelper']['previous'] = $_SESSION['pSudokuHelper']['sudoku'];
 
 if ($postSet != '0') {
     $_SESSION['pSudokuHelper']['sudoku'][$getRow][$getCol]['set'] = $postSet;
@@ -46,7 +48,6 @@ if ($postSet != '0') {
             $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['possible'][$postSet] = false;
         }
     }
-    updateStepback();
 } else {
     for ($conf = 1; $conf < 10; $conf ++) {
         if (isset($_POST['possible-' . $conf])) {
@@ -56,5 +57,7 @@ if ($postSet != '0') {
         }
     }
 }
+
+updateStepback();
 
 echo 'success';

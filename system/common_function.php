@@ -72,9 +72,11 @@ function myAutoloader($className)
  *            Zeile des Buttons
  * @param string $col
  *            Spalte des Buttons
+ * @param string $addColor
+ *            html-Code für Hervorhebung eines Buttons
  * @return string html-Code mit Link für einen Button
  */
-function generate_button($row, $col)
+function generate_button($row, $col, $addColor = '')
 {
     $ret = '';
     $text = '';
@@ -104,12 +106,13 @@ function generate_button($row, $col)
             }
         }
 
-        $ret .= '<button class="openPopup" href="javascript:void(0);" style= "text-align: center;height: 60px;width:60px;font-size: ' . $fontsize . ' " data-href="' . SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/assign.php', array(
+        $ret .= '<button class="openPopup" href="javascript:void(0);" style= "text-align: center' . $addColor . ';height: 60px;width:60px;font-size: ' . $fontsize . ' " data-href="' . SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/assign.php', array(
             'row' => $row,
             'col' => $col
         )) . '">' . $text . '</button>';
     } else {
-        $ret .= '<button class="openPopup" href="javascript:void(0);" style= "text-align: center;height: 60px;width:60px;font-size: 40px" data-href="' . SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/assign.php', array(
+
+        $ret .= '<button class="openPopup" href="javascript:void(0);" style= "text-align: center' . $addColor . ';height: 60px;width:60px;font-size: 40px" data-href="' . SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/assign.php', array(
             'row' => $row,
             'col' => $col
         )) . '">' . $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['set'] . '</button>';
