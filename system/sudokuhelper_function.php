@@ -828,7 +828,7 @@ switch ($getMode) {
                     continue;
                 } else {
                     // den in diesem Feld gesetzten Wert auslesen
-                    $numberSet = $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['set'];
+                    $numberSet = (int) $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['set'];
 
                     // in der Zeile $row befindet sich der der einzulesende bzw. zu prüfende Wert - die Startzeile für diesen "Gegeben-Block" bestimmen
                     $startRow = getStartRowOrCol($row);
@@ -867,47 +867,46 @@ switch ($getMode) {
                     }
 
                     // weiter nur, wenn noch genau zwei für die Prüfung vorhandene Zeilen vorhanden sind
-                    if (count($workArray) != 2) {
-                        continue;
-                    }
+                    if (count($workArray) === 2) {
 
-                    // jetzt prüfen, ob der Wert aus x/y in einem der 4 3er-Blöcke NICHT in den Possible-daten enthalten ist. Dieser Block wäre dann der "Hier kanns nicht sein-Block"
-                    $checkArray = array();
-                    $foundInRow = 0;
-                    $foundInColBlock = 0;
+                        // jetzt prüfen, ob der Wert aus x/y in einem der 4 3er-Blöcke NICHT in den Possible-daten enthalten ist. Dieser Block wäre dann der "Hier kanns nicht sein-Block"
+                        $checkArray = array();
+                        $foundInRow = 0;
+                        $foundInColBlock = 0;
 
-                    foreach ($workArray as $trow => $data) {
+                        foreach ($workArray as $trow => $data) {
 
-                        foreach ($data['possible'] as $tcol => $datapos) {
-                            $workBlock = getStartRowOrCol($tcol);
-                            if (! $datapos[$numberSet]) {
-                                if (! isset($checkArray[$trow][$workBlock])) {
-                                    $checkArray[$trow][$workBlock] = 1;
-                                } else {
-                                    $checkArray[$trow][$workBlock] ++;
+                            foreach ($data['possible'] as $tcol => $datapos) {
+                                $workBlock = getStartRowOrCol($tcol);
+                                if (! $datapos[$numberSet]) {
+                                    if (! isset($checkArray[$trow][$workBlock])) {
+                                        $checkArray[$trow][$workBlock] = 1;
+                                    } else {
+                                        $checkArray[$trow][$workBlock] ++;
 
-                                    // beim ersten Auftreten von 3x Vorhanden-Sein des Wertes die Schleife verlassen (weitere Prüfung nicht erforderlich, das der "Hier kanns nicht sein-Block" gefunden wurde)
-                                    if ($checkArray[$trow][$workBlock] === 3) {
-                                        $foundInRow = $trow;
-                                        $foundInColBlock = $workBlock;
-                                        break;
+                                        // beim ersten Auftreten von 3x Vorhanden-Sein des Wertes die Schleife verlassen (weitere Prüfung nicht erforderlich, das der "Hier kanns nicht sein-Block" gefunden wurde)
+                                        if ($checkArray[$trow][$workBlock] === 3) {
+                                            $foundInRow = $trow;
+                                            $foundInColBlock = $workBlock;
+                                            break;
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
 
-                    // wenn der "Hier kanns nicht sein-Block" gefunden wurde, dann in den Possible-Daten des "Hier kanns nicht sein-Block" den Wert aus x/y ($numberSet) auf false setzen.
-                    if ($foundInRow != 0) {
-                        foreach ($workArray as $trow => $data) {
-                            if ($trow === $foundInRow) {
-                                continue;
-                            }
-                            foreach ($data['possible'] as $tcol => $datapos) {
-                                if ((getStartRowOrCol($tcol)) === $foundInColBlock) {
+                        // wenn der "Hier kanns nicht sein-Block" gefunden wurde, dann in den Possible-Daten des "Hier kanns nicht sein-Block" den Wert aus x/y ($numberSet) auf false setzen.
+                        if ($foundInRow != 0) {
+                            foreach ($workArray as $trow => $data) {
+                                if ($trow === $foundInRow) {
                                     continue;
                                 }
-                                $_SESSION['pSudokuHelper']['sudoku'][$trow][$tcol]['possible'][$numberSet] = false;
+                                foreach ($data['possible'] as $tcol => $datapos) {
+                                    if ((getStartRowOrCol($tcol)) === $foundInColBlock) {
+                                        continue;
+                                    }
+                                    $_SESSION['pSudokuHelper']['sudoku'][$trow][$tcol]['possible'][$numberSet] = false;
+                                }
                             }
                         }
                     }
@@ -937,47 +936,46 @@ switch ($getMode) {
                     }
 
                     // weiter nur, wenn noch genau zwei für die Prüfung vorhandene Zeilen vorhanden sind
-                    if (count($workArray) != 2) {
-                        continue;
-                    }
+                    if (count($workArray) === 2) {
 
-                    // jetzt prüfen, ob der Wert aus x/y in einem der 4 3er-Blöcke NICHT in den Possible-daten enthalten ist. Dieser Block wäre dann der "Hier kanns nicht sein-Block"
-                    $checkArray = array();
-                    $foundInCol = 0;
-                    $foundInRowBlock = 0;
+                        // jetzt prüfen, ob der Wert aus x/y in einem der 4 3er-Blöcke NICHT in den Possible-daten enthalten ist. Dieser Block wäre dann der "Hier kanns nicht sein-Block"
+                        $checkArray = array();
+                        $foundInCol = 0;
+                        $foundInRowBlock = 0;
 
-                    foreach ($workArray as $tcol => $data) {
+                        foreach ($workArray as $tcol => $data) {
 
-                        foreach ($data['possible'] as $trow => $datapos) {
-                            $workBlock = getStartRowOrCol($trow);
-                            if (! $datapos[$numberSet]) {
-                                if (! isset($checkArray[$tcol][$workBlock])) {
-                                    $checkArray[$tcol][$workBlock] = 1;
-                                } else {
-                                    $checkArray[$tcol][$workBlock] ++;
+                            foreach ($data['possible'] as $trow => $datapos) {
+                                $workBlock = getStartRowOrCol($trow);
+                                if (! $datapos[$numberSet]) {
+                                    if (! isset($checkArray[$tcol][$workBlock])) {
+                                        $checkArray[$tcol][$workBlock] = 1;
+                                    } else {
+                                        $checkArray[$tcol][$workBlock] ++;
 
-                                    // beim ersten Auftreten von 3x Vorhanden-Sein des Wertes die Schleife verlassen (weitere Prüfung nicht erforderlich, das der "Hier kanns nicht sein-Block" gefunden wurde)
-                                    if ($checkArray[$tcol][$workBlock] === 3) {
-                                        $foundInCol = $tcol;
-                                        $foundInRowBlock = $workBlock;
-                                        break;
+                                        // beim ersten Auftreten von 3x Vorhanden-Sein des Wertes die Schleife verlassen (weitere Prüfung nicht erforderlich, das der "Hier kanns nicht sein-Block" gefunden wurde)
+                                        if ($checkArray[$tcol][$workBlock] === 3) {
+                                            $foundInCol = $tcol;
+                                            $foundInRowBlock = $workBlock;
+                                            break;
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
 
-                    // wenn der "Hier kanns nicht sein-Block" gefunden wurde, in den Possible-Daten des "Hier kanns nicht sein-Block" den Wert aus x/y ($numberSet) auf false setzen.
-                    if ($foundInCol != 0) {
-                        foreach ($workArray as $tcol => $data) {
-                            if ($tcol === $foundInCol) {
-                                continue;
-                            }
-                            foreach ($data['possible'] as $trow => $datapos) {
-                                if ((getStartRowOrCol($trow)) === $foundInRowBlock) {
+                        // wenn der "Hier kanns nicht sein-Block" gefunden wurde, in den Possible-Daten des "Hier kanns nicht sein-Block" den Wert aus x/y ($numberSet) auf false setzen.
+                        if ($foundInCol != 0) {
+                            foreach ($workArray as $tcol => $data) {
+                                if ($tcol === $foundInCol) {
                                     continue;
                                 }
-                                $_SESSION['pSudokuHelper']['sudoku'][$trow][$tcol]['possible'][$numberSet] = false;
+                                foreach ($data['possible'] as $trow => $datapos) {
+                                    if ((getStartRowOrCol($trow)) === $foundInRowBlock) {
+                                        continue;
+                                    }
+                                    $_SESSION['pSudokuHelper']['sudoku'][$trow][$tcol]['possible'][$numberSet] = false;
+                                }
                             }
                         }
                     }
