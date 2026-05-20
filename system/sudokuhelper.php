@@ -35,21 +35,24 @@ try {
     $page = PagePresenter::withHtmlIDAndHeadline('plg-sudokuhelper', $headline . ' <small>v' . $pPreferences->config['Plugininformationen']['version'] . '</small>');
     $page->setContentFullWidth();
 
-    $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemSingle', $gL10n->get('PLG_SUDOKU_HELPER_FIND_SINGLE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
+    $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemSingle', $gL10n->get('PLG_SUDOKU_HELPER_RULE_FIND_SINGLE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
         'mode' => 'find_equals',
         'anz' => 1
     )), 'bi-dice-1');
-    $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemCouple', $gL10n->get('PLG_SUDOKU_HELPER_FIND_COUPLES'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
+    $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemCouple', $gL10n->get('PLG_SUDOKU_HELPER_RULE_FIND_COUPLES'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
         'mode' => 'find_equals',
         'anz' => 2
     )), 'bi-dice-2');
-    $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemTrible', $gL10n->get('PLG_SUDOKU_HELPER_FIND_TRIBLE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
+    $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemTrible', $gL10n->get('PLG_SUDOKU_HELPER_RULE_FIND_TRIBLE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
         'mode' => 'find_equals',
         'anz' => 3
     )), 'bi-dice-3');
-    $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemCannotbeMustnotbe', $gL10n->get('PLG_SUDOKU_HELPER_CANNOTBE_MUSTNOTBE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
+    $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemCannotbeMustnotbe', $gL10n->get('PLG_SUDOKU_HELPER_RULE_CANNOTBE_MUSTNOTBE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
         'mode' => 'cannotbe_mustnotbe'
     )), 'bi-signpost-split');
+    $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemMustHereCannotBeThere', $gL10n->get('PLG_SUDOKU_HELPER_RULE_MUSTHERE_CANNOTBETHERE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
+        'mode' => 'musthere_cannotbethere'
+    )), 'bi-layers-half');
     $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemSaveSingle', $gL10n->get('PLG_SUDOKU_HELPER_SAVE_SINGLE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
         'mode' => 'save_single'
     )), 'bi-123');

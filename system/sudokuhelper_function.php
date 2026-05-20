@@ -802,6 +802,9 @@ switch ($getMode) {
         
         /*
          * Regel:
+         * 
+         * Kann hier nicht sein und darf deshalb dort auch nicht sein
+         * 
          * Betrachtet werden immer 3 quadratische, nebeneinander liegende 9er Blöcke
          * Bei waagrechter Prüfung: Aufgeteilt in drei Zeilen ($startrow, $startrow+1 und $startrow +2)
          * In einen 9er Block in einer Zeile ist der aus drei nebeneinander liegenden Kästchen bestehende "Gegeben-Block". In diesem Block ist der zu prüfende Wert x/y ($numberSet)
@@ -869,7 +872,7 @@ switch ($getMode) {
                     // weiter nur, wenn noch genau zwei für die Prüfung vorhandene Zeilen vorhanden sind
                     if (count($workArray) === 2) {
 
-                        // jetzt prüfen, ob der Wert aus x/y in einem der 4 3er-Blöcke NICHT in den Possible-daten enthalten ist. Dieser Block wäre dann der "Hier kanns nicht sein-Block"
+                        // jetzt prüfen, ob der Wert aus x/y in einem der 4 3er-Blöcke NICHT in den Possible-Daten enthalten ist. Dieser Block wäre dann der "Hier kanns nicht sein-Block"
                         $checkArray = array();
                         $foundInRow = 0;
                         $foundInColBlock = 0;
@@ -980,6 +983,170 @@ switch ($getMode) {
                         }
                     }
                 } // ende else schleife
+            }
+        }
+
+        updateStepback();
+
+        break;
+
+    case 'musthere_cannotbethere':
+        
+        /*
+         * Regel:
+         * 
+         * Müssen hier sein und können deshalb nicht dort sein
+         *          
+         * Gegeben sind immer 3 quadratische, nebeneinander liegende 9er Blöcke
+         * Betrachtet wird dabei immer eine waagrechte Zeile (die Prüfung der senkrechten Spalten funktioniert entsprechend) 
+         * Diese Zeile ist aufgeteilt in 3 Dreier-Blöcke 
+         * Wenn zwei der drei Dreier-Blöcke mit Zahlen belegt sind, z.B. 5 9 3   2 1 6, dann müssen im letzen, dritten Dreier-Block die restlichen Zahlen sein. Im Beispiel dann 4,7 und 8.
+         * Die Zahlen 4, 7 und 8 müssen in diesem Dreier-Block sein (aus dem quadratischen 9er Block) und können nicht an anderer Stelle des 9er-Blocks sein.
+         */
+        
+        $_SESSION['pSudokuHelper']['previous'] = $_SESSION['pSudokuHelper']['sudoku'];
+
+        // waagrechte Prüfung
+
+        // alle Zeilen durchlaufen
+        for ($row = 1; $row < 10; $row ++) {
+
+            $workArray = array();
+            $setArray = array();
+
+            // alle Spalten durchlaufen
+            for ($col = 1; $col < 10; $col ++) {
+
+                // um die Daten eines 3er-Blocks gemeinsam abzuspeichern, wird die erste Koordinate (waagrecht, als auch senkrecht) dieses 3er-Blocks bestimmt
+                // --> $startCol oder $startRow; möglich sind nur die Zahlen 1, 4 oder 7
+                $startCol = getStartRowOrCol($col);
+
+                if (! isset($setArray[$startCol]['sets'])) {
+                    $setArray[$startCol]['sets'] = array();
+                }
+                if (! isset($setArray[$startCol]['counter'])) {
+                    $setArray[$startCol]['counter'] = 0;
+                }
+
+                // Daten nur einlesen, wenn für dieses Feld ein Wert (eine Zahl 1-9) gesetzt wurde
+                if ($_SESSION['pSudokuHelper']['sudoku'][$row][$col]['set'] != 0) {
+                    $setArray[$startCol]['sets'][] = (int) $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['set'];
+                    $setArray[$startCol]['counter'] ++;
+                }
+            }
+
+            // nur weiter, wenn die Regel auch angewendet werden kann
+            // --> zwei 3er-Blöcke müssen jeweils 3 Zahlen aufweisen (also vollständig ausgefüllt sein)
+            // --> im dritten 3er-Block darf höchstens eine Zahl stehen (also höchstens ein Feld belegt sein)
+            if (($setArray[1]['counter'] === 3 && $setArray[4]['counter'] === 3 && $setArray[7]['counter'] <= 1)) {
+                $startCol = 7;
+            } elseif ($setArray[1]['counter'] === 3 && $setArray[7]['counter'] === 3 && $setArray[4]['counter'] <= 1) {
+                $startCol = 4;
+            } elseif ($setArray[4]['counter'] === 3 && $setArray[7]['counter'] === 3 && $setArray[1]['counter'] <= 1) {
+                $startCol = 1;
+            } else {
+                // zur nächsten Zeile
+                continue;
+            }
+
+            $workArray = array_diff(array(
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+            ), array_merge($setArray[1]['sets'], $setArray[4]['sets'], $setArray[7]['sets']));
+
+            // in $workArray sind jetzt die Zahlen, die auf die noch freien Stellen müssen
+            // sie können aber nur in die freien Stellen gesetzt werden und an keiner anderen Stelle des 9er-Blocks
+            // deshalb im 9er-Block alle Möglichkeiten in den Possible-Daten löschen
+
+            $startRow = getStartRowOrCol($row);
+
+            for ($trow = novum($startRow); $trow < novum($startRow) + 3; $trow ++) {
+                if ($trow != $row) {
+                    for ($tcol = novum($startCol); $tcol < novum($startCol) + 3; $tcol ++) {
+                        foreach ($workArray as $numberSet) {
+                            $_SESSION['pSudokuHelper']['sudoku'][$trow][$tcol]['possible'][$numberSet] = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        // senkrechte Prüfung
+
+        // alle Spalten durchlaufen
+        for ($col = 1; $col < 10; $col ++) {
+
+            $workArray = array();
+            $setArray = array();
+
+            // alle Spalten durchlaufen
+            for ($row = 1; $row < 10; $row ++) {
+
+                // um die Daten eines 3er-Blocks gemeinsam abzuspeichern, wird die erste Koordinate (waagrecht, als auch senkrecht) dieses 3er-Blocks bestimmt
+                // --> $startCol oder $startRow; möglich sind nur die Zahlen 1, 4 oder 7
+                $startRow = getStartRowOrCol($row);
+
+                if (! isset($setArray[$startRow]['sets'])) {
+                    $setArray[$startRow]['sets'] = array();
+                }
+                if (! isset($setArray[$startRow]['counter'])) {
+                    $setArray[$startRow]['counter'] = 0;
+                }
+
+                // Daten nur einlesen, wenn für dieses Feld ein Wert (eine Zahl 1-9) gesetzt wurde
+                if ($_SESSION['pSudokuHelper']['sudoku'][$row][$col]['set'] != 0) {
+                    $setArray[$startRow]['sets'][] = (int) $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['set'];
+                    $setArray[$startRow]['counter'] ++;
+                }
+            }
+
+            // nur weiter, wenn die Regel auch angewendet werden kann
+            // --> zwei 3er-Blöcke müssen jeweils 3 Zahlen aufweisen (also vollständig ausgefüllt sein)
+            // --> im dritten 3er-Block darf höchstens eine Zahl stehen (also höchstens ein Feld belegt sein)
+            if (($setArray[1]['counter'] === 3 && $setArray[4]['counter'] === 3 && $setArray[7]['counter'] <= 1)) {
+                $startRow = 7;
+            } elseif ($setArray[1]['counter'] === 3 && $setArray[7]['counter'] === 3 && $setArray[4]['counter'] <= 1) {
+                $startRow = 4;
+            } elseif ($setArray[4]['counter'] === 3 && $setArray[7]['counter'] === 3 && $setArray[1]['counter'] <= 1) {
+                $startRow = 1;
+            } else {
+                // zur nächsten Zeile
+                continue;
+            }
+
+            $workArray = array_diff(array(
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+            ), array_merge($setArray[1]['sets'], $setArray[4]['sets'], $setArray[7]['sets']));
+
+            // in $workArray sind jetzt die Zahlen, die auf die noch freien Stellen müssen
+            // sie können aber nur in die freien Stellen gesetzt werden und an keiner anderen Stelle des 9er-Blocks
+            // deshalb im 9er-Block alle Möglichkeiten in den Possible-Daten löschen
+
+            $startCol = getStartRowOrCol($row);
+
+            for ($tcol = novum($startCol); $tcol < novum($startCol) + 3; $tcol ++) {
+                if ($tcol != $col) {
+                    for ($trow = novum($startRow); $trow < novum($startRow) + 3; $trow ++) {
+                        foreach ($workArray as $numberSet) {
+                            $_SESSION['pSudokuHelper']['sudoku'][$trow][$tcol]['possible'][$numberSet] = false;
+                        }
+                    }
+                }
             }
         }
 

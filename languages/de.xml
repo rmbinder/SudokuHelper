@@ -2,12 +2,8 @@
 <resources>
     <string name="PLG_SUDOKU_HELPER_ACCESS_TO_PLUGIN">Zugriff auf das Plugin SudokuHelper</string>
     <string name="PLG_SUDOKU_HELPER_ACCESS_TO_PLUGIN_DESC">Mitglieder dieser Rolle haben Zugriff auf das Plugin SudokuHelper</string>
-    <string name="PLG_SUDOKU_HELPER_CANNOTBE_MUSTNOTBE">Regel -Kanns nicht sein/Darfs nicht sein-</string>    
     <string name="PLG_SUDOKU_HELPER_CONGRATULATIONS">Gratulation</string> 
-    <string name="PLG_SUDOKU_HELPER_CREATE_BACKUP">Spielstand speichern</string> 
-    <string name="PLG_SUDOKU_HELPER_FIND_COUPLES">Regel -Double finden-</string>  
-    <string name="PLG_SUDOKU_HELPER_FIND_SINGLE">Regel -Single finden-</string>
-    <string name="PLG_SUDOKU_HELPER_FIND_TRIBLE">Regel -Trible finden-</string>  
+    <string name="PLG_SUDOKU_HELPER_CREATE_BACKUP">Spielstand speichern</string>
     <string name="PLG_SUDOKU_HELPER_INSTALL_UPDATE_REQUIRED">Die vorhandene Installation ist unvollständig. Es ist notwendig, die Installationsroutine erneut zu durchlaufen.\n\nZur Installation folgendes Script ausführen: #VAR1#</string>
     <string name="PLG_SUDOKU_HELPER_NAME">SudokuHelper</string> 
     <string name="PLG_SUDOKU_HELPER_NAME_DESC">Das Plugin SudokuHelper</string>  
@@ -18,6 +14,11 @@
     <string name="PLG_SUDOKU_HELPER_PLUGIN_VERSION">Version</string>
     <string name="PLG_SUDOKU_HELPER_POSSIBLE">möglich</string>
     <string name="PLG_SUDOKU_HELPER_RESTORE_BACKUP">Spielstand wiederherstellen</string>
+    <string name="PLG_SUDOKU_HELPER_RULE_CANNOTBE_MUSTNOTBE">Regel -Kanns nicht sein/Darfs nicht sein-</string> 
+    <string name="PLG_SUDOKU_HELPER_RULE_FIND_COUPLES">Regel -Double finden-</string>  
+    <string name="PLG_SUDOKU_HELPER_RULE_FIND_SINGLE">Regel -Single finden-</string>
+    <string name="PLG_SUDOKU_HELPER_RULE_FIND_TRIBLE">Regel -Trible finden-</string> 
+    <string name="PLG_SUDOKU_HELPER_RULE_MUSTHERE_CANNOTBETHERE">Regel -Muss hier sein/Kann nicht dort sein-</string>     
     <string name="PLG_SUDOKU_HELPER_SAVE_SINGLE">Single-Werte übernehmen</string> 
     <string name="PLG_SUDOKU_HELPER_SET">setzen</string>
     <string name="PLG_SUDOKU_HELPER_STEP_BACK">Schritt zurück</string>    
