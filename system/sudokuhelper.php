@@ -10,6 +10,7 @@
  */
 use Admidio\Infrastructure\Exception;
 use Admidio\Infrastructure\Utils\SecurityUtils;
+use Admidio\UI\Presenter\FormPresenter;
 use Admidio\UI\Presenter\PagePresenter;
 use Plugins\SudokuHelper\classes\Config\ConfigTable;
 
@@ -125,21 +126,34 @@ try {
 
     unset($_SESSION['pSudokuHelper']['previous']);
 
+    $page->addHtml($html);
+
     if ($successCounter == 405) {
         sleep(1);
         echo '
         <audio autoplay>
             <source src="' . ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sounds/tusch' . rand(1, 5) . '.mp3" type="audio/mp3" />
-        </audio>
-    ';
+        </audio>';
 
         initSudoku();
 
-        $gMessage->setForwardYesNo(SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper.php'));
-        $gMessage->show($gL10n->get('PLG_SUDOKU_HELPER_SUCCESS_MESSAGE'), $gL10n->get('PLG_SUDOKU_HELPER_CONGRATULATIONS'));
+        $form = new FormPresenter('exit-or-continue-form', '../templates/exit.or.continue.plugin.sudokuhelper.tpl', '', $page);
+
+        $form->addButton('btn_exit', $gL10n->get('SYS_NO'), array(
+            'icon' => 'bi-x-square',
+            'link' => $gHomepage,
+            'class' => 'btn-primary'
+        ));
+
+        $form->addButton('btn_continue', $gL10n->get('SYS_YES'), array(
+            'icon' => 'bi-pencil-square',
+            'link' => $gNavigation->getPreviousUrl(),
+            'class' => 'btn-primary'
+        ));
+
+        $form->addToHtmlPage();
     }
 
-    $page->addHtml($html);
     $page->show();
 } catch (Exception $e) {
     $gMessage->show($e->getMessage());

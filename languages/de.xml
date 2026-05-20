@@ -22,7 +22,7 @@
     <string name="PLG_SUDOKU_HELPER_SAVE_SINGLE">Single-Werte übernehmen</string> 
     <string name="PLG_SUDOKU_HELPER_SET">setzen</string>
     <string name="PLG_SUDOKU_HELPER_STEP_BACK">Schritt zurück</string>    
-    <string name="PLG_SUDOKU_HELPER_SUCCESS_MESSAGE">\nHerzlichen Glückwunsch, du hast das Sudoku erfolgreich gelöst.\n\n\nMöchtest du ein neues Spiel beginnen?</string>
+    <string name="PLG_SUDOKU_HELPER_SUCCESS_MESSAGE">Herzlichen Glückwunsch, du hast das Sudoku erfolgreich gelöst.\n\nMöchtest du ein neues Spiel beginnen?</string>
     <string name="PLG_SUDOKU_HELPER_UNINST_ACCESS_ROLE_ERROR">- Beim Löschen der Zugriffsrolle ist ein Fehler aufgetreten.\n</string>
     <string name="PLG_SUDOKU_HELPER_UNINST_ACCESS_ROLE_SUCCESS">- Die vom Plugin angelegte Zugriffsrolle wurde gelöscht.\n</string>  
     <string name="PLG_SUDOKU_HELPER_UNINST_DATA_DELETE_ERROR">- Beim Löschen der Konfigurationsdaten ist ein Fehler aufgetreten.\n</string>
