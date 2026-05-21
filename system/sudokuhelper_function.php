@@ -37,7 +37,7 @@ $getId = admFuncVariableIsValid($_GET, 'id', 'string');
 switch ($getMode) {
     case 'find_equals':
 
-        $_SESSION['pSudokuHelper']['previous'] = $_SESSION['pSudokuHelper']['sudoku'];
+        updatePrevious();
 
         // Zeilen und Spalten prüfen
         // wird horizontal geprüft, dann wird $koord1 durch $row und $koord2 durch $col ersetzt
@@ -63,9 +63,9 @@ switch ($getMode) {
                             if (sizeof($result) > 0) // ja, in dieser Spalte gibt es eine Übereinstimmung
                             {
                                 $updateRequired = true;
-                                $_SESSION['pSudokuHelper']['sudoku'][($rowToCol ? $koord1 : $koord2)][($rowToCol ? $koord2 : $koord1)]['possible'] = array_fill(1, 9, false);
+                                setPossible(($rowToCol ? $koord1 : $koord2), ($rowToCol ? $koord2 : $koord1), 0, false);
                                 foreach ($data as $datakey) {
-                                    $_SESSION['pSudokuHelper']['sudoku'][($rowToCol ? $koord1 : $koord2)][($rowToCol ? $koord2 : $koord1)]['possible'][$datakey] = true;
+                                    setPossible(($rowToCol ? $koord1 : $koord2), ($rowToCol ? $koord2 : $koord1), $datakey, true);
                                 }
                             }
                         }
@@ -136,9 +136,9 @@ switch ($getMode) {
                             if (sizeof($result) > 0) // ja, in diesem Block gibt es eine Übereinstimmung
                             {
                                 $updateRequired = true;
-                                $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['possible'] = array_fill(1, 9, false);
+                                setPossible($row, $col, 0, false);
                                 foreach ($data as $datakey) {
-                                    $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['possible'][$datakey] = true;
+                                    setPossible($row, $col, $datakey, true);
                                 }
                             }
                         }
@@ -147,7 +147,6 @@ switch ($getMode) {
             }
         }
         if ($updateRequired) {
-
             updateStepback();
         }
         break;
@@ -818,7 +817,7 @@ switch ($getMode) {
          * Jetzt alle x/y-Werte ($numberSet) in den Possible-Daten im "Hier darfs nicht sein-Block" löschen
          */
         
-        $_SESSION['pSudokuHelper']['previous'] = $_SESSION['pSudokuHelper']['sudoku'];
+        updatePrevious();
 
         // alle Zeilen durchlaufen
         for ($row = 1; $row < 10; $row ++) {
@@ -908,7 +907,7 @@ switch ($getMode) {
                                     if ((getStartRowOrCol($tcol)) === $foundInColBlock) {
                                         continue;
                                     }
-                                    $_SESSION['pSudokuHelper']['sudoku'][$trow][$tcol]['possible'][$numberSet] = false;
+                                    setPossible($trow, $tcol, $numberSet, false);
                                 }
                             }
                         }
@@ -977,7 +976,7 @@ switch ($getMode) {
                                     if ((getStartRowOrCol($trow)) === $foundInRowBlock) {
                                         continue;
                                     }
-                                    $_SESSION['pSudokuHelper']['sudoku'][$trow][$tcol]['possible'][$numberSet] = false;
+                                    setPossible($trow, $tcol, $numberSet, false);
                                 }
                             }
                         }
@@ -1004,7 +1003,7 @@ switch ($getMode) {
          * Die Zahlen 4, 7 und 8 müssen in diesem Dreier-Block sein (aus dem quadratischen 9er Block) und können nicht an anderer Stelle des 9er-Blocks sein.
          */
         
-        $_SESSION['pSudokuHelper']['previous'] = $_SESSION['pSudokuHelper']['sudoku'];
+        updatePrevious();
 
         // waagrechte Prüfung
 
@@ -1071,7 +1070,7 @@ switch ($getMode) {
                 if ($trow != $row) {
                     for ($tcol = novum($startCol); $tcol < novum($startCol) + 3; $tcol ++) {
                         foreach ($workArray as $numberSet) {
-                            $_SESSION['pSudokuHelper']['sudoku'][$trow][$tcol]['possible'][$numberSet] = false;
+                            setPossible($trow, $tcol, $numberSet, false);
                         }
                     }
                 }
@@ -1143,7 +1142,7 @@ switch ($getMode) {
                 if ($tcol != $col) {
                     for ($trow = novum($startRow); $trow < novum($startRow) + 3; $trow ++) {
                         foreach ($workArray as $numberSet) {
-                            $_SESSION['pSudokuHelper']['sudoku'][$trow][$tcol]['possible'][$numberSet] = false;
+                            setPossible($trow, $tcol, $numberSet, false);
                         }
                     }
                 }
@@ -1156,7 +1155,8 @@ switch ($getMode) {
 
     case 'save_single':
 
-        $_SESSION['pSudokuHelper']['previous'] = $_SESSION['pSudokuHelper']['sudoku'];
+        updatePrevious();
+
         for ($row = 1; $row < 10; $row ++) {
 
             for ($col = 1; $col < 10; $col ++) {
@@ -1170,20 +1170,19 @@ switch ($getMode) {
                 if ($count === 1) {
 
                     $numberSet = array_search('true', $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['possible']);
-                    $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['set'] = $numberSet;
-                    $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['possible'] = array_fill(1, 9, false);
+                    setNumber($row, $col, $numberSet);
 
                     for ($trow = 1; $trow < 10; $trow ++) {
-                        $_SESSION['pSudokuHelper']['sudoku'][$trow][$col]['possible'][$numberSet] = false;
+                        setPossible($trow, $col, $numberSet, false);
                     }
 
                     for ($tcol = 1; $tcol < 10; $tcol ++) {
-                        $_SESSION['pSudokuHelper']['sudoku'][$row][$tcol]['possible'][$numberSet] = false;
+                        setPossible($row, $tcol, $numberSet, false);
                     }
 
                     for ($trow = novum($row); $trow < novum($row) + 3; $trow ++) {
                         for ($tcol = novum($col); $tcol < novum($col) + 3; $tcol ++) {
-                            $_SESSION['pSudokuHelper']['sudoku'][$trow][$tcol]['possible'][$numberSet] = false;
+                            setPossible($trow, $tcol, $numberSet, false);
                         }
                     }
                 }

@@ -219,6 +219,7 @@ function initSudoku()
     $_SESSION['pSudokuHelper'] = array();
     $_SESSION['pSudokuHelper']['backup'] = array();
     $_SESSION['pSudokuHelper']['stepback'] = array();
+    $_SESSION['pSudokuHelper']['previous'] = array();
 
     for ($row = 1; $row < 10; $row ++) {
         for ($col = 1; $col < 10; $col ++) {
@@ -258,4 +259,58 @@ function updateStepback()
 function getStartRowOrCol($val)
 {
     return (3 * ceil($val / 3)) - 2;
+}
+
+/**
+ * Funktion setzt einen Wert im 'set'-Bereich des SESSION-Arrays 'pSudokuHelper'
+ * Wird ein Wert ungeleich 0 gesetzt, so wird das gesamte, dazugehörige 'possible'-Array auf false gesetzt
+ *
+ * @param int $xPos
+ *            die X-Position für den zu setzenden Wert
+ * @param int $yPos
+ *            die Y-Position für den zu setzenden Wert
+ * @param int $number
+ *            die Zahl, die an dieser Position gesetzt werden soll (default: 0)
+ */
+function setNumber(int $xPos, int $yPos, int $number = 0): void
+{
+    $_SESSION['pSudokuHelper']['sudoku'][$xPos][$yPos]['set'] = $number;
+    if ($number != 0) {
+        $_SESSION['pSudokuHelper']['sudoku'][$xPos][$yPos]['possible'] = array_fill(1, 9, false);
+    }
+}
+
+/**
+ * Funktion setzt einen Wert oder mehrere Wert im 'possible'-Bereich
+ * des SESSION-Arrays 'pSudokuHelper'
+ *
+ * @param int $xPos
+ *            die X-Position für den zu setzenden Wert
+ * @param int $yPos
+ *            die Y-Position für den zu setzenden Wert
+ * @param int $number
+ *            die Position, die auf true oder false gesetzt wird
+ *            0: alle Positionen
+ *            1-9: Position
+ * @param bool $val
+ *            true oder false (default: true)
+ */
+function setPossible(int $xPos, int $yPos, int $number, bool $val = true): void
+{
+    if ($number === 0) {
+        $_SESSION['pSudokuHelper']['sudoku'][$xPos][$yPos]['possible'] = array_fill(1, 9, $val);
+    } else {
+        $_SESSION['pSudokuHelper']['sudoku'][$xPos][$yPos]['possible'][$number] = $val;
+    }
+}
+
+/**
+ * Funktion setzt den aktuellen Sudoku-Stand gleich mit dem Previous-Array
+ *
+ * @param
+ *            none
+ */
+function updatePrevious()
+{
+    $_SESSION['pSudokuHelper']['previous'] = $_SESSION['pSudokuHelper']['sudoku'];
 }

@@ -29,31 +29,30 @@ $postSet = admFuncVariableIsValid($_POST, 'set', 'string', array(
 ));
 
 $gMessage->showHtmlTextOnly(true);
-$_SESSION['pSudokuHelper']['previous'] = $_SESSION['pSudokuHelper']['sudoku'];
+updatePrevious();
 
 if ($postSet != '0') {
-    $_SESSION['pSudokuHelper']['sudoku'][$getRow][$getCol]['set'] = $postSet;
-    $_SESSION['pSudokuHelper']['sudoku'][$getRow][$getCol]['possible'] = array_fill(1, 9, false);
+    setNumber($getRow, $getCol, $postSet);
 
     for ($row = 1; $row < 10; $row ++) {
-        $_SESSION['pSudokuHelper']['sudoku'][$row][$getCol]['possible'][$postSet] = false;
+        setPossible($row, $getCol, $postSet, false);
     }
 
     for ($col = 1; $col < 10; $col ++) {
-        $_SESSION['pSudokuHelper']['sudoku'][$getRow][$col]['possible'][$postSet] = false;
+        setPossible($getRow, $col, $postSet, false);
     }
 
     for ($row = novum($getRow); $row < novum($getRow) + 3; $row ++) {
         for ($col = novum($getCol); $col < novum($getCol) + 3; $col ++) {
-            $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['possible'][$postSet] = false;
+            setPossible($row, $col, $postSet, false);
         }
     }
 } else {
     for ($conf = 1; $conf < 10; $conf ++) {
         if (isset($_POST['possible-' . $conf])) {
-            $_SESSION['pSudokuHelper']['sudoku'][$getRow][$getCol]['possible'][$conf] = true;
+            setPossible($getRow, $getCol, $conf, true);
         } else {
-            $_SESSION['pSudokuHelper']['sudoku'][$getRow][$getCol]['possible'][$conf] = false;
+            setPossible($getRow, $getCol, $conf, false);
         }
     }
 }

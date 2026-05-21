@@ -106,7 +106,7 @@ try {
             $html .= '<td>';
 
             $addColor = '';
-            if (isset($_SESSION['pSudokuHelper']['previous'])) {
+            if (isset($_SESSION['pSudokuHelper']['previous'][$row][$col]['possible'])) {
                 if ($_SESSION['pSudokuHelper']['previous'][$row][$col]['possible'] !== $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['possible']) {
                     $addColor = ';background-color:orange';
                 }
