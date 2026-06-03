@@ -57,9 +57,13 @@ try {
     $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemSaveSingle', $gL10n->get('PLG_SUDOKU_HELPER_SAVE_SINGLE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
         'mode' => 'save_single'
     )), 'bi-123');
-    $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemPattern', $gL10n->get('PLG_SUDOKU_HELPER_PATTERN'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
-        'mode' => 'set'
-    )), 'bi-box');
+    $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemSample', $gL10n->get('PLG_SUDOKU_HELPER_SAMPLE_SUDOKU'), '#', 'bi-box');
+    $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemSample1', $gL10n->get('PLG_SUDOKU_HELPER_SAMPLE_SUDOKU') . '1', SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
+        'mode' => 'sample1'
+    )), 'bi-box', 'admSudokuHelperMenuItemSample', 1);
+    $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemSample2', $gL10n->get('PLG_SUDOKU_HELPER_SAMPLE_SUDOKU') . '2', SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
+        'mode' => 'sample2'
+    )), 'bi-box', 'admSudokuHelperMenuItemSample', 2);
     $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemBackup', $gL10n->get('PLG_SUDOKU_HELPER_CREATE_BACKUP'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
         'mode' => 'backup'
     )), 'bi-save');

@@ -13,7 +13,8 @@
  * Parameters:
  *
  * mode : find_equals - rule find numbers
- * set - set an pattern sudoku (only for testing)
+ * sample1 - set an pattern sudoku (only for testing)
+ * sample2 - set an pattern sudoku (only for testing)
  * backup - save the game
  * restore - restore the game
  * stepback - step back
@@ -151,630 +152,89 @@ switch ($getMode) {
         }
         break;
 
-    case 'set':
+    case 'sample1':
 
         initSudoku();
-        $_SESSION['pSudokuHelper']['sudoku'][1][2]['set'] = 1;
-        $_SESSION['pSudokuHelper']['sudoku'][1][3]['set'] = 5;
-        $_SESSION['pSudokuHelper']['sudoku'][1][4]['set'] = 8;
-        $_SESSION['pSudokuHelper']['sudoku'][1][6]['set'] = 7;
-        $_SESSION['pSudokuHelper']['sudoku'][1][9]['set'] = 2;
-        $_SESSION['pSudokuHelper']['sudoku'][2][4]['set'] = 4;
-        $_SESSION['pSudokuHelper']['sudoku'][3][1]['set'] = 8;
-        $_SESSION['pSudokuHelper']['sudoku'][3][2]['set'] = 7;
-        $_SESSION['pSudokuHelper']['sudoku'][3][4]['set'] = 5;
-        $_SESSION['pSudokuHelper']['sudoku'][3][6]['set'] = 2;
-        $_SESSION['pSudokuHelper']['sudoku'][4][4]['set'] = 9;
-        $_SESSION['pSudokuHelper']['sudoku'][4][8]['set'] = 8;
-        $_SESSION['pSudokuHelper']['sudoku'][4][9]['set'] = 1;
-        $_SESSION['pSudokuHelper']['sudoku'][5][2]['set'] = 3;
-        $_SESSION['pSudokuHelper']['sudoku'][5][8]['set'] = 4;
-        $_SESSION['pSudokuHelper']['sudoku'][5][9]['set'] = 9;
-        $_SESSION['pSudokuHelper']['sudoku'][6][1]['set'] = 7;
-        $_SESSION['pSudokuHelper']['sudoku'][6][2]['set'] = 9;
-        $_SESSION['pSudokuHelper']['sudoku'][6][6]['set'] = 1;
-        $_SESSION['pSudokuHelper']['sudoku'][7][2]['set'] = 8;
-        $_SESSION['pSudokuHelper']['sudoku'][7][4]['set'] = 2;
-        $_SESSION['pSudokuHelper']['sudoku'][7][6]['set'] = 4;
-        $_SESSION['pSudokuHelper']['sudoku'][7][7]['set'] = 9;
-        $_SESSION['pSudokuHelper']['sudoku'][7][8]['set'] = 1;
-        $_SESSION['pSudokuHelper']['sudoku'][7][9]['set'] = 6;
-        $_SESSION['pSudokuHelper']['sudoku'][8][6]['set'] = 9;
-        $_SESSION['pSudokuHelper']['sudoku'][9][1]['set'] = 9;
-        $_SESSION['pSudokuHelper']['sudoku'][9][4]['set'] = 1;
-        $_SESSION['pSudokuHelper']['sudoku'][9][6]['set'] = 8;
-        $_SESSION['pSudokuHelper']['sudoku'][9][7]['set'] = 5;
-        $_SESSION['pSudokuHelper']['sudoku'][9][8]['set'] = 3;
 
-        $_SESSION['pSudokuHelper']['sudoku'][1][1]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => true,
-            4 => true,
-            5 => false,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][1][2]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][1][3]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][1][4]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][1][5]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => true,
-            4 => false,
-            5 => false,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => true
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][1][6]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][1][7]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => true,
-            4 => true,
-            5 => false,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][1][8]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => false,
-            4 => false,
-            5 => false,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => true
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][1][9]['possible'] = array_fill(1, 9, false);
+        setNumber(1, 2, 1);
+        setNumber(1, 3, 5);
+        setNumber(1, 4, 8);
+        setNumber(1, 6, 7);
+        setNumber(1, 9, 2);
 
-        $_SESSION['pSudokuHelper']['sudoku'][2][1]['possible'] = array(
-            1 => false,
-            2 => true,
-            3 => true,
-            4 => false,
-            5 => false,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][2][2]['possible'] = array(
-            1 => false,
-            2 => true,
-            3 => false,
-            4 => false,
-            5 => false,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][2][3]['possible'] = array(
-            1 => false,
-            2 => true,
-            3 => true,
-            4 => false,
-            5 => false,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => true
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][2][4]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][2][5]['possible'] = array(
-            1 => true,
-            2 => false,
-            3 => true,
-            4 => false,
-            5 => false,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => true
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][2][6]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => false,
-            4 => false,
-            5 => false,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][2][7]['possible'] = array(
-            1 => true,
-            2 => false,
-            3 => true,
-            4 => false,
-            5 => false,
-            6 => true,
-            7 => true,
-            8 => true,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][2][8]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => false,
-            4 => false,
-            5 => true,
-            6 => true,
-            7 => true,
-            8 => false,
-            9 => true
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][2][9]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => true,
-            4 => false,
-            5 => true,
-            6 => false,
-            7 => true,
-            8 => true,
-            9 => false
-        );
+        setNumber(2, 4, 4);
 
-        $_SESSION['pSudokuHelper']['sudoku'][3][1]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][3][2]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][3][3]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => true,
-            4 => true,
-            5 => false,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => true
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][3][4]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][3][5]['possible'] = array(
-            1 => true,
-            2 => false,
-            3 => true,
-            4 => false,
-            5 => false,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => true
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][3][6]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][3][7]['possible'] = array(
-            1 => true,
-            2 => false,
-            3 => true,
-            4 => true,
-            5 => false,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][3][8]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => false,
-            4 => false,
-            5 => false,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => true
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][3][9]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => true,
-            4 => true,
-            5 => false,
-            6 => false,
-            7 => false,
-            8 => false,
-            9 => false
-        );
+        setNumber(3, 1, 8);
+        setNumber(3, 2, 7);
+        setNumber(3, 4, 5);
+        setNumber(3, 6, 2);
 
-        $_SESSION['pSudokuHelper']['sudoku'][4][1]['possible'] = array(
-            1 => false,
-            2 => true,
-            3 => false,
-            4 => true,
-            5 => true,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][4][2]['possible'] = array(
-            1 => false,
-            2 => true,
-            3 => false,
-            4 => true,
-            5 => true,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][4][3]['possible'] = array(
-            1 => false,
-            2 => true,
-            3 => false,
-            4 => true,
-            5 => false,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][4][4]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][4][5]['possible'] = array(
-            1 => false,
-            2 => true,
-            3 => false,
-            4 => true,
-            5 => false,
-            6 => false,
-            7 => false,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][4][6]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => true,
-            4 => false,
-            5 => false,
-            6 => false,
-            7 => false,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][4][7]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => false,
-            4 => false,
-            5 => false,
-            6 => false,
-            7 => true,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][4][8]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][4][9]['possible'] = array_fill(1, 9, false);
+        setNumber(4, 4, 9);
+        setNumber(4, 8, 8);
+        setNumber(4, 9, 1);
 
-        $_SESSION['pSudokuHelper']['sudoku'][5][1]['possible'] = array(
-            1 => true,
-            2 => true,
-            3 => false,
-            4 => false,
-            5 => true,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][5][2]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][5][3]['possible'] = array(
-            1 => true,
-            2 => true,
-            3 => false,
-            4 => false,
-            5 => false,
-            6 => true,
-            7 => false,
-            8 => true,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][5][4]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => false,
-            4 => false,
-            5 => false,
-            6 => false,
-            7 => true,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][5][5]['possible'] = array(
-            1 => false,
-            2 => true,
-            3 => false,
-            4 => false,
-            5 => false,
-            6 => false,
-            7 => false,
-            8 => true,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][5][6]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => false,
-            4 => false,
-            5 => true,
-            6 => false,
-            7 => false,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][5][7]['possible'] = array(
-            1 => false,
-            2 => true,
-            3 => false,
-            4 => false,
-            5 => false,
-            6 => true,
-            7 => true,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][5][8]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][5][9]['possible'] = array_fill(1, 9, false);
+        setNumber(5, 2, 3);
+        setNumber(5, 8, 4);
+        setNumber(5, 9, 9);
 
-        $_SESSION['pSudokuHelper']['sudoku'][6][1]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][6][2]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][6][3]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => false,
-            4 => true,
-            5 => false,
-            6 => false,
-            7 => false,
-            8 => true,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][6][4]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => false,
-            4 => false,
-            5 => false,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][6][5]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => false,
-            4 => true,
-            5 => false,
-            6 => false,
-            7 => false,
-            8 => true,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][6][6]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][6][7]['possible'] = array(
-            1 => false,
-            2 => true,
-            3 => true,
-            4 => false,
-            5 => false,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][6][8]['possible'] = array(
-            1 => false,
-            2 => true,
-            3 => false,
-            4 => false,
-            5 => true,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][6][9]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => true,
-            4 => false,
-            5 => true,
-            6 => false,
-            7 => false,
-            8 => false,
-            9 => false
-        );
+        setNumber(6, 1, 7);
+        setNumber(6, 2, 9);
+        setNumber(6, 6, 1);
 
-        $_SESSION['pSudokuHelper']['sudoku'][7][1]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => true,
-            4 => false,
-            5 => true,
-            6 => false,
-            7 => false,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][7][2]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][7][3]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => true,
-            4 => false,
-            5 => false,
-            6 => false,
-            7 => true,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][7][4]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][7][5]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => true,
-            4 => false,
-            5 => true,
-            6 => false,
-            7 => true,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][7][6]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][7][7]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][7][8]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][7][9]['possible'] = array_fill(1, 9, false);
+        setNumber(7, 2, 8);
+        setNumber(7, 4, 2);
+        setNumber(7, 6, 4);
+        setNumber(7, 7, 9);
+        setNumber(7, 8, 1);
+        setNumber(7, 9, 6);
 
-        $_SESSION['pSudokuHelper']['sudoku'][8][1]['possible'] = array(
-            1 => true,
-            2 => false,
-            3 => true,
-            4 => true,
-            5 => true,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][8][2]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => false,
-            4 => true,
-            5 => true,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][8][3]['possible'] = array(
-            1 => true,
-            2 => false,
-            3 => true,
-            4 => true,
-            5 => false,
-            6 => true,
-            7 => true,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][8][4]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => true,
-            4 => false,
-            5 => false,
-            6 => false,
-            7 => false,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][8][5]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => true,
-            4 => false,
-            5 => true,
-            6 => true,
-            7 => true,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][8][6]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][8][7]['possible'] = array(
-            1 => false,
-            2 => true,
-            3 => false,
-            4 => true,
-            5 => false,
-            6 => false,
-            7 => true,
-            8 => true,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][8][8]['possible'] = array(
-            1 => false,
-            2 => true,
-            3 => false,
-            4 => false,
-            5 => false,
-            6 => false,
-            7 => true,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][8][9]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => false,
-            4 => true,
-            5 => false,
-            6 => false,
-            7 => true,
-            8 => true,
-            9 => false
-        );
+        setNumber(8, 6, 9);
 
-        $_SESSION['pSudokuHelper']['sudoku'][9][1]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][9][2]['possible'] = array(
-            1 => false,
-            2 => true,
-            3 => false,
-            4 => true,
-            5 => false,
-            6 => true,
-            7 => false,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][9][3]['possible'] = array(
-            1 => false,
-            2 => true,
-            3 => false,
-            4 => true,
-            5 => false,
-            6 => true,
-            7 => true,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][9][4]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][9][5]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => false,
-            4 => false,
-            5 => false,
-            6 => true,
-            7 => true,
-            8 => false,
-            9 => false
-        );
-        $_SESSION['pSudokuHelper']['sudoku'][9][6]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][9][7]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][9][8]['possible'] = array_fill(1, 9, false);
-        $_SESSION['pSudokuHelper']['sudoku'][9][9]['possible'] = array(
-            1 => false,
-            2 => false,
-            3 => false,
-            4 => true,
-            5 => false,
-            6 => false,
-            7 => true,
-            8 => false,
-            9 => false
-        );
+        setNumber(9, 1, 9);
+        setNumber(9, 4, 1);
+        setNumber(9, 6, 8);
+        setNumber(9, 7, 5);
+        setNumber(9, 8, 3);
+
+        updateStepback();
+        break;
+
+    case 'sample2':
+
+        initSudoku();
+        setNumber(2, 3, 7);
+        setNumber(2, 5, 6);
+        setNumber(2, 6, 1);
+        setNumber(2, 7, 3);
+
+        setNumber(3, 6, 7);
+        setNumber(3, 8, 9);
+        setNumber(3, 9, 1);
+
+        setNumber(4, 2, 4);
+        setNumber(4, 3, 8);
+        setNumber(4, 5, 9);
+        setNumber(4, 7, 6);
+        setNumber(4, 9, 5);
+
+        setNumber(5, 1, 9);
+        setNumber(5, 9, 3);
+
+        setNumber(6, 1, 3);
+        setNumber(6, 3, 1);
+        setNumber(6, 5, 4);
+        setNumber(6, 7, 9);
+        setNumber(6, 8, 8);
+
+        setNumber(7, 1, 5);
+        setNumber(7, 2, 1);
+        setNumber(7, 4, 8);
+
+        setNumber(8, 3, 6);
+        setNumber(8, 4, 7);
+        setNumber(8, 5, 3);
+        setNumber(8, 7, 4);
+
         updateStepback();
         break;
 
@@ -1172,19 +632,21 @@ switch ($getMode) {
                     $numberSet = array_search('true', $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['possible']);
                     setNumber($row, $col, $numberSet);
 
-                    for ($trow = 1; $trow < 10; $trow ++) {
-                        setPossible($trow, $col, $numberSet, false);
-                    }
-
-                    for ($tcol = 1; $tcol < 10; $tcol ++) {
-                        setPossible($row, $tcol, $numberSet, false);
-                    }
-
-                    for ($trow = novum($row); $trow < novum($row) + 3; $trow ++) {
-                        for ($tcol = novum($col); $tcol < novum($col) + 3; $tcol ++) {
-                            setPossible($trow, $tcol, $numberSet, false);
-                        }
-                    }
+                    /*
+                     * for ($trow = 1; $trow < 10; $trow ++) {
+                     * setPossible($trow, $col, $numberSet, false);
+                     * }
+                     *
+                     * for ($tcol = 1; $tcol < 10; $tcol ++) {
+                     * setPossible($row, $tcol, $numberSet, false);
+                     * }
+                     *
+                     * for ($trow = novum($row); $trow < novum($row) + 3; $trow ++) {
+                     * for ($tcol = novum($col); $tcol < novum($col) + 3; $tcol ++) {
+                     * setPossible($trow, $tcol, $numberSet, false);
+                     * }
+                     * }
+                     */
                 }
             }
         }
