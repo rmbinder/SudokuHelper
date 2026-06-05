@@ -263,20 +263,34 @@ function getStartRowOrCol($val)
 
 /**
  * Funktion setzt einen Wert im 'set'-Bereich des SESSION-Arrays 'pSudokuHelper'
- * Wird ein Wert ungeleich 0 gesetzt, so wird das gesamte, dazugehörige 'possible'-Array auf false gesetzt
+ * Wird ein Wert ungleich 0 gesetzt, so wird das gesamte, dazugehörige 'possible'-Array auf false gesetzt
  *
- * @param int $xPos
- *            die X-Position für den zu setzenden Wert
- * @param int $yPos
- *            die Y-Position für den zu setzenden Wert
+ * @param int $row
+ *            die Zeile für den zu setzenden Wert
+ * @param int $col
+ *            die Spalte für den zu setzenden Wert
  * @param int $number
  *            die Zahl, die an dieser Position gesetzt werden soll (default: 0)
  */
-function setNumber(int $xPos, int $yPos, int $number = 0): void
+function setNumber(int $row, int $col, int $number = 0): void
 {
-    $_SESSION['pSudokuHelper']['sudoku'][$xPos][$yPos]['set'] = $number;
+    $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['set'] = $number;
     if ($number != 0) {
-        $_SESSION['pSudokuHelper']['sudoku'][$xPos][$yPos]['possible'] = array_fill(1, 9, false);
+        setPossible($row, $col, 0, false);
+
+        for ($trow = 1; $trow < 10; $trow ++) {
+            setPossible($trow, $col, $number, false);
+        }
+
+        for ($tcol = 1; $tcol < 10; $tcol ++) {
+            setPossible($row, $tcol, $number, false);
+        }
+
+        for ($trow = novum($row); $trow < novum($row) + 3; $trow ++) {
+            for ($tcol = novum($col); $tcol < novum($col) + 3; $tcol ++) {
+                setPossible($trow, $tcol, $number, false);
+            }
+        }
     }
 }
 
@@ -284,10 +298,10 @@ function setNumber(int $xPos, int $yPos, int $number = 0): void
  * Funktion setzt einen Wert oder mehrere Wert im 'possible'-Bereich
  * des SESSION-Arrays 'pSudokuHelper'
  *
- * @param int $xPos
- *            die X-Position für den zu setzenden Wert
- * @param int $yPos
- *            die Y-Position für den zu setzenden Wert
+ * @param int $row
+ *            die Zeile für den zu setzenden Wert
+ * @param int $col
+ *            die Spalte für den zu setzenden Wert
  * @param int $number
  *            die Position, die auf true oder false gesetzt wird
  *            0: alle Positionen
@@ -295,12 +309,12 @@ function setNumber(int $xPos, int $yPos, int $number = 0): void
  * @param bool $val
  *            true oder false (default: true)
  */
-function setPossible(int $xPos, int $yPos, int $number, bool $val = true): void
+function setPossible(int $row, int $col, int $number, bool $val = true): void
 {
     if ($number === 0) {
-        $_SESSION['pSudokuHelper']['sudoku'][$xPos][$yPos]['possible'] = array_fill(1, 9, $val);
+        $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['possible'] = array_fill(1, 9, $val);
     } else {
-        $_SESSION['pSudokuHelper']['sudoku'][$xPos][$yPos]['possible'][$number] = $val;
+        $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['possible'][$number] = $val;
     }
 }
 

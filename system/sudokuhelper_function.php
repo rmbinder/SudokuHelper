@@ -628,25 +628,8 @@ switch ($getMode) {
                     }
                 }
                 if ($count === 1) {
-
                     $numberSet = array_search('true', $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['possible']);
                     setNumber($row, $col, $numberSet);
-
-                    /*
-                     * for ($trow = 1; $trow < 10; $trow ++) {
-                     * setPossible($trow, $col, $numberSet, false);
-                     * }
-                     *
-                     * for ($tcol = 1; $tcol < 10; $tcol ++) {
-                     * setPossible($row, $tcol, $numberSet, false);
-                     * }
-                     *
-                     * for ($trow = novum($row); $trow < novum($row) + 3; $trow ++) {
-                     * for ($tcol = novum($col); $tcol < novum($col) + 3; $tcol ++) {
-                     * setPossible($trow, $tcol, $numberSet, false);
-                     * }
-                     * }
-                     */
                 }
             }
         }

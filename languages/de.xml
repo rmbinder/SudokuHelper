@@ -4,10 +4,11 @@
     <string name="PLG_SUDOKU_HELPER_ACCESS_TO_PLUGIN_DESC">Mitglieder dieser Rolle haben Zugriff auf das Plugin SudokuHelper</string>
     <string name="PLG_SUDOKU_HELPER_CONGRATULATIONS">Gratulation</string> 
     <string name="PLG_SUDOKU_HELPER_CREATE_BACKUP">Spielstand speichern</string>
+    <string name="PLG_SUDOKU_HELPER_DOCUMENTATION">Dokumentation</string>
+    <string name="PLG_SUDOKU_HELPER_DOCUMENTATION_OPEN">Dokumentation öffnen</string>    
     <string name="PLG_SUDOKU_HELPER_INSTALL_UPDATE_REQUIRED">Die vorhandene Installation ist unvollständig. Es ist notwendig, die Installationsroutine erneut zu durchlaufen.\n\nZur Installation folgendes Script ausführen: #VAR1#</string>
     <string name="PLG_SUDOKU_HELPER_NAME">SudokuHelper</string> 
     <string name="PLG_SUDOKU_HELPER_NAME_DESC">Das Plugin SudokuHelper</string>  
-    <string name="PLG_SUDOKU_HELPER_PATTERN">Mustersudoku</string>
     <string name="PLG_SUDOKU_HELPER_PLUGIN_DATE">Stand</string>
     <string name="PLG_SUDOKU_HELPER_PLUGIN_INFORMATION">Plugininformationen</string>
     <string name="PLG_SUDOKU_HELPER_PLUGIN_NAME">Name des Plugins</string>
@@ -19,6 +20,7 @@
     <string name="PLG_SUDOKU_HELPER_RULE_FIND_SINGLE">Regel -Single finden-</string>
     <string name="PLG_SUDOKU_HELPER_RULE_FIND_TRIBLE">Regel -Trible finden-</string> 
     <string name="PLG_SUDOKU_HELPER_RULE_MUSTHERE_CANNOTBETHERE">Regel -Muss hier sein/Kann nicht dort sein-</string>     
+    <string name="PLG_SUDOKU_HELPER_SAMPLE_SUDOKU">Beispielsudoku</string>
     <string name="PLG_SUDOKU_HELPER_SAVE_SINGLE">Single-Werte übernehmen</string> 
     <string name="PLG_SUDOKU_HELPER_SET">setzen</string>
     <string name="PLG_SUDOKU_HELPER_STEP_BACK">Schritt zurück</string>    

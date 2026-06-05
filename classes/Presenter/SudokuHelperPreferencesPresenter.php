@@ -1,7 +1,6 @@
 <?php
 namespace Plugins\SudokuHelper\classes\Presenter;
 
-use Admidio\Changelog\Service\ChangelogService;
 use Admidio\Infrastructure\Exception;
 use Admidio\Infrastructure\Utils\SecurityUtils;
 use Admidio\UI\Presenter\FormPresenter;
@@ -9,11 +8,12 @@ use Admidio\UI\Presenter\PagePresenter;
 use Plugins\SudokuHelper\classes\Config\ConfigTable;
 
 /**
+ *
  * @brief Class with methods to display the preference page and helpful functions.
  *
  * This class adds some functions that are used in the sudokuhelper-preferences module to keep the
  * code easy to read and short
- * 
+ *
  * SudokuHelperPreferencesPresenter is a modified (Admidio)PreferencesPresenter
  *
  * **Code example**
@@ -121,16 +121,30 @@ class SudokuHelperPreferencesPresenter extends PagePresenter
      */
     public function createInformationsForm(): string
     {
-        global $gL10n;
+        global $gL10n, $gSettingsManager, $gCurrentSession;
 
         $pPreferences = new ConfigTable();
         $pPreferences->read();
 
-        $this->assignSmartyVariable('plg_name', $gL10n->get('PLG_SUDOKU_HELPER_NAME'));
-        $this->assignSmartyVariable('plg_version', $pPreferences->config['Plugininformationen']['version']);
-        $this->assignSmartyVariable('plg_date', $pPreferences->config['Plugininformationen']['stand']);
+        $formInformations = new FormPresenter('adm_preferences_form_options', '../templates/preferences.informations.plugin.sudokuhelper.tpl', '', null, array(
+            'class' => 'form-preferences'
+        ));
+
+        $formInformations->addCustomContent('plg_name', $gL10n->get('PLG_SUDOKU_HELPER_PLUGIN_NAME'), $gL10n->get('PLG_SUDOKU_HELPER_NAME'));
+        $formInformations->addCustomContent('plg_version', $gL10n->get('PLG_SUDOKU_HELPER_PLUGIN_VERSION'), $pPreferences->config['Plugininformationen']['version']);
+        $formInformations->addCustomContent('plg_date', $gL10n->get('PLG_SUDOKU_HELPER_PLUGIN_DATE'), $pPreferences->config['Plugininformationen']['stand']);
+
+        $docFile = 'documentation-en.pdf';
+        if ($gSettingsManager->getString('system_language') === 'de' || $gSettingsManager->getString('system_language') === 'de-DE') {
+            $docFile = 'documentation-de.pdf';
+        }
+        $html = '<a class="btn btn-secondary" id="open_documentation" href="' . ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/docs/' . $docFile . '" target="_blank"><i class="bi bi-file-earmark-pdf"></i> ' . $gL10n->get('PLG_SUDOKU_HELPER_DOCUMENTATION_OPEN') . '</a>';
+        $formInformations->addCustomContent('plg_doc', $gL10n->get('PLG_SUDOKU_HELPER_DOCUMENTATION'), $html);
 
         $smarty = $this->getSmartyTemplate();
+        $formInformations->addToSmarty($smarty);
+        $gCurrentSession->addFormObject($formInformations);
+
         return $smarty->fetch('../templates/preferences.informations.plugin.sudokuhelper.tpl');
     }
 

@@ -33,20 +33,6 @@ updatePrevious();
 
 if ($postSet != '0') {
     setNumber($getRow, $getCol, $postSet);
-
-    for ($row = 1; $row < 10; $row ++) {
-        setPossible($row, $getCol, $postSet, false);
-    }
-
-    for ($col = 1; $col < 10; $col ++) {
-        setPossible($getRow, $col, $postSet, false);
-    }
-
-    for ($row = novum($getRow); $row < novum($getRow) + 3; $row ++) {
-        for ($col = novum($getCol); $col < novum($getCol) + 3; $col ++) {
-            setPossible($row, $col, $postSet, false);
-        }
-    }
 } else {
     for ($conf = 1; $conf < 10; $conf ++) {
         if (isset($_POST['possible-' . $conf])) {
