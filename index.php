@@ -5,7 +5,7 @@
  *
  * Version 3.2
  * 
- * Stand 11.05.2026
+ * Stand 09.06.2026
  *
  * Dieses Admidio-Plugin hilft beim Lösen eines Sudoku-Rätsels.
  * 
