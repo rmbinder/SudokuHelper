@@ -16,6 +16,7 @@
     <string name="PLG_SUDOKU_HELPER_POSSIBLE">möglich</string>
     <string name="PLG_SUDOKU_HELPER_RESTORE_BACKUP">Spielstand wiederherstellen</string>
     <string name="PLG_SUDOKU_HELPER_RULE_CANNOTBE_MUSTNOTBE">Regel -Kanns nicht sein/Darfs nicht sein-</string>
+    <string name="PLG_SUDOKU_HELPER_RULE_CLEAN_UP">Regel -Paare bereinigen-</string>     
     <string name="PLG_SUDOKU_HELPER_RULE_FIND_COUPLES">Regel -Double finden-</string>  
     <string name="PLG_SUDOKU_HELPER_RULE_FIND_SINGLE">Regel -Single finden-</string>
     <string name="PLG_SUDOKU_HELPER_RULE_FIND_TRIBLE">Regel -Trible finden-</string>

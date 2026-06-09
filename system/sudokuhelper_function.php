@@ -76,44 +76,8 @@ switch ($getMode) {
             $rowToCol = false; // jetzt Durchlauf colToRow
         }
 
-        // 9er Block prüfen
-        $neunerBlock = array();
-        $neunerBlock['ol'] = array(
-            'row' => 1,
-            'col' => 1
-        ); // ol = oben links
-        $neunerBlock['om'] = array(
-            'row' => 1,
-            'col' => 4
-        ); // om = oben mitte
-        $neunerBlock['or'] = array(
-            'row' => 1,
-            'col' => 7
-        ); // or = oben rechts
-        $neunerBlock['ml'] = array(
-            'row' => 4,
-            'col' => 1
-        ); // ml = mitte links
-        $neunerBlock['mm'] = array(
-            'row' => 4,
-            'col' => 4
-        ); // mm = mitte mitte
-        $neunerBlock['mr'] = array(
-            'row' => 4,
-            'col' => 7
-        ); // mr = mitte rechts
-        $neunerBlock['ul'] = array(
-            'row' => 7,
-            'col' => 1
-        ); // ul = unten links
-        $neunerBlock['um'] = array(
-            'row' => 7,
-            'col' => 4
-        ); // um = unten mitte
-        $neunerBlock['ur'] = array(
-            'row' => 7,
-            'col' => 7
-        ); // ur = unten rechts
+        // 9er Block (=Unterquadrat) prüfen
+        $neunerBlock = generate_neunerblock();
 
         foreach ($neunerBlock as $block => $blockData) {
             $arbeitsarray = array();
@@ -611,6 +575,128 @@ switch ($getMode) {
 
         updateStepback();
 
+        break;
+
+    case 'clean_up':
+        
+        /*
+         * Regel:
+         *
+         * Pärchen bereinigen
+         *
+         * Gegeben eine Zeile, eine Spalte oder ein Unterquadrat
+         * In zwei Kästchen sind gleiche Zahlen gesetzt als possible: z.B. 25 und 25 oder 245, 245 und 245
+         * In der restlichen Zeile (Spalte, Unterquadrat) dürfen diese Zahlen nicht mehr unter possible auftauchen
+         */
+        
+        updatePrevious();
+
+        $updateRequired = false;
+
+        // waagrechte Prüfung
+        // alle Zeilen durchlaufen
+        for ($row = 1; $row < 10; $row ++) {
+            $arbeitsarray = array();
+            $found = array();
+
+            // alle Spalten durchlaufen
+            for ($col = 1; $col < 10; $col ++) {
+                $arbeitsarray[$col] = $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['possible'];
+            }
+            $found = search_same($arbeitsarray);
+
+            if (sizeof($found) > 0) {
+                $updateRequired = true;
+
+                for ($col = 1; $col < 10; $col ++) {
+
+                    foreach ($found as $key => $data) {
+                        if (! $data['foundCol'][$col]) {
+                            // in dieser Spalte wurde nichts gefunden, deshalb die possible-Daten bearbeiten
+                            foreach ($data['possibleArr'] as $posKey => $posData) {
+                                if ($posData) {
+                                    setPossible($row, $col, $posKey, false);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // senkrechte Prüfung
+        // alle Spalten durchlaufen
+        for ($col = 1; $col < 10; $col ++) {
+            $arbeitsarray = array();
+            $found = array();
+
+            // alle Zeilen durchlaufen
+            for ($row = 1; $row < 10; $row ++) {
+                $arbeitsarray[$row] = $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['possible'];
+            }
+            $found = search_same($arbeitsarray);
+
+            if (sizeof($found) > 0) {
+                $updateRequired = true;
+
+                for ($row = 1; $row < 10; $row ++) {
+
+                    foreach ($found as $key => $data) {
+                        if (! $data['foundCol'][$row]) {
+                            // in dieser Zeile wurde nichts gefunden, deshalb die possible-Daten bearbeiten
+                            foreach ($data['possibleArr'] as $posKey => $posData) {
+                                if ($posData) {
+                                    setPossible($row, $col, $posKey, false);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Unterquadratprüfung (9er-Block)
+        // alle Neunerblöcke durchlaufen
+        $neunerBlock = generate_neunerblock();
+
+        foreach ($neunerBlock as $block => $blockData) {
+            $arbeitsarray = array();
+            $found = array();
+            $i = 1;
+
+            for ($row = $blockData['row']; $row < $blockData['row'] + 3; $row ++) {
+                for ($col = $blockData['col']; $col < $blockData['col'] + 3; $col ++) {
+                    $arbeitsarray[$i] = $_SESSION['pSudokuHelper']['sudoku'][$row][$col]['possible'];
+                    $i ++;
+                }
+            }
+            $found = search_same($arbeitsarray);
+
+            if (sizeof($found) > 0) {
+                $updateRequired = true;
+                $i = 1;
+                for ($row = $blockData['row']; $row < $blockData['row'] + 3; $row ++) {
+                    for ($col = $blockData['col']; $col < $blockData['col'] + 3; $col ++) {
+
+                        foreach ($found as $key => $data) {
+                            if (! $data['foundCol'][$i]) {
+                                // in dieser Zeile wurde nichts gefunden, deshalb die possible-Daten bearbeiten
+                                foreach ($data['possibleArr'] as $posKey => $posData) {
+                                    if ($posData) {
+                                        setPossible($row, $col, $posKey, false);
+                                    }
+                                }
+                            }
+                        }
+                        $i ++;
+                    }
+                }
+            }
+        }
+
+        if ($updateRequired) {
+            updateStepback();
+        }
         break;
 
     case 'save_single':

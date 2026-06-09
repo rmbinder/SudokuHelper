@@ -54,6 +54,9 @@ try {
     $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemMustHereCannotBeThere', $gL10n->get('PLG_SUDOKU_HELPER_RULE_MUSTHERE_CANNOTBETHERE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
         'mode' => 'musthere_cannotbethere'
     )), 'bi-layers-half');
+    $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemCleanUp', $gL10n->get('PLG_SUDOKU_HELPER_RULE_CLEAN_UP'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
+        'mode' => 'clean_up'
+    )), 'bi-tornado');
     $page->addPageFunctionsMenuItem('admSudokuHelperMenuItemSaveSingle', $gL10n->get('PLG_SUDOKU_HELPER_SAVE_SINGLE'), SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/sudokuhelper_function.php', array(
         'mode' => 'save_single'
     )), 'bi-123');

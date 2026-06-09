@@ -209,6 +209,114 @@ function search_numbers($anz, $arbArray)
 }
 
 /**
+ * Funktion sucht im übergebenen Array nach Pärchen oder Drillingen
+ *
+ * @param array $arbArray
+ *            das übergebene Array in dem die Zahlen gesucht werden
+ * @return array $foundArray mit den gefundenen Zahlen
+ */
+function search_same($arbArray)
+{
+    $foundArray = array();
+
+    for ($i = 1; $i < 9; $i ++) {
+        for ($k = $i + 1; $k < 10; $k ++) {
+
+            if ($arbArray[$i] === $arbArray[$k]) {
+
+                $numbersText = generate_numbers($arbArray[$i]);
+
+                if (! isset($foundArray[$numbersText])) {
+                    $foundArray[$numbersText]['foundCol'] = array();
+                    $foundArray[$numbersText]['foundCol'] = array_fill(1, 9, false);
+                }
+
+                $foundArray[$numbersText]['foundCol'][$i] = true;
+                $foundArray[$numbersText]['foundCol'][$k] = true;
+                $foundArray[$numbersText]['possibleArr'] = $arbArray[$i];
+            }
+        }
+    }
+
+    foreach ($foundArray as $key => $data) {
+        if (array_sum($data['foundCol']) != array_sum($data['possibleArr'])) {
+            unset($foundArray[$key]);
+        }
+    }
+
+    return $foundArray;
+}
+
+/**
+ * Funktion erzeugt den Text mit den possible-Nummern
+ *
+ * @param array $arbArray
+ *            das übergebene Array mit den possible-Daten
+ * @param string $dist
+ *            Abstand zwischen den Zahlen
+ * @return string $text die possible-Nummeren als Test
+ */
+function generate_numbers($possibleArray, $dist = '')
+{
+    $text = '';
+    foreach ($possibleArray as $key => $data) {
+        if ($data) {
+            $text .= $key . $dist;
+        }
+    }
+
+    return $text;
+}
+
+/**
+ * Funktion erzeugt die Array-Daten für ein Unterquadrat (=9er Block)
+ *
+ * @return array $neunerBlock die Array-Daten
+ */
+function generate_neunerblock()
+{
+    $neunerBlock = array();
+    $neunerBlock['ol'] = array(
+        'row' => 1,
+        'col' => 1
+    ); // ol = oben links
+    $neunerBlock['om'] = array(
+        'row' => 1,
+        'col' => 4
+    ); // om = oben mitte
+    $neunerBlock['or'] = array(
+        'row' => 1,
+        'col' => 7
+    ); // or = oben rechts
+    $neunerBlock['ml'] = array(
+        'row' => 4,
+        'col' => 1
+    ); // ml = mitte links
+    $neunerBlock['mm'] = array(
+        'row' => 4,
+        'col' => 4
+    ); // mm = mitte mitte
+    $neunerBlock['mr'] = array(
+        'row' => 4,
+        'col' => 7
+    ); // mr = mitte rechts
+    $neunerBlock['ul'] = array(
+        'row' => 7,
+        'col' => 1
+    ); // ul = unten links
+    $neunerBlock['um'] = array(
+        'row' => 7,
+        'col' => 4
+    ); // um = unten mitte
+    $neunerBlock['ur'] = array(
+        'row' => 7,
+        'col' => 7
+    ); // ur = unten rechts
+
+    return $neunerBlock;
+}
+
+/**
  * Funktion initialisiert ein neues Spiel
  *
  * @param

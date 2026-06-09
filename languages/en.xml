@@ -16,6 +16,7 @@
     <string name="PLG_SUDOKU_HELPER_POSSIBLE">possible</string>
     <string name="PLG_SUDOKU_HELPER_RESTORE_BACKUP">Restore the game</string>
     <string name="PLG_SUDOKU_HELPER_RULE_CANNOTBE_MUSTNOTBE">Rule: -Cannot be/Must not be-</string>
+    <string name="PLG_SUDOKU_HELPER_RULE_CLEAN_UP">Rule: -Clean up pairs-</string>     
     <string name="PLG_SUDOKU_HELPER_RULE_FIND_COUPLES">Rule: -Find double numbers-</string> 
     <string name="PLG_SUDOKU_HELPER_RULE_FIND_SINGLE">Rule: -Find single numbers-</string>
     <string name="PLG_SUDOKU_HELPER_RULE_FIND_TRIBLE">Rule: -Find trible numbers-</string>
